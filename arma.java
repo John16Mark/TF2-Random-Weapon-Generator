@@ -120,7 +120,7 @@ public class arma {
 		//OBTENER TODOS LOS STATS POSITIVOS
 		/*
 		for(i=0; i<statpos.size(); i++){
-			statsmodificados += "· "+statpos.get(i)+"   ";}*/
+			statsmodificados += "+ "+statpos.get(i)+"   ";}*/
 		
 		statsmodificados += "</font></html>";
 		return statsmodificados;

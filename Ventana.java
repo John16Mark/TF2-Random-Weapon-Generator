@@ -97,14 +97,14 @@ public class Ventana extends JFrame
 		texto3 = new JLabel();
 		texto3.setBounds(100, 550, 300, 30);
 		
-		icono = new ImageIcon(getClass().getResource("../img/Leaderboard_class_soldier.png"));
+		//icono = new ImageIcon(getClass().getResource("../img/Leaderboard_class_soldier.png"));
 		imagen2 = new Imagen(602,160,64,32);
 		imagen2.setBounds(602,160,64,64);
 		imagen2.setIcon(icono);
 		imagen2.setBackground(Color.blue);
 		imagen2.setVisible(false);
 		
-		icono = new ImageIcon(getClass().getResource("../img/Backpack_Rocket_Launcher.png"));
+		//icono = new ImageIcon(getClass().getResource("../img/Backpack_Rocket_Launcher.png"));
 		imagen1 = new Imagen(402,0,256,128);
 		imagen1.setBounds(402,0,256,256);
 		imagen1.setIcon(icono);
