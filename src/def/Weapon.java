@@ -8,62 +8,31 @@ import java.util.Random;
 
 public class Weapon {
 	
-	// enum Clases/*
-	/*
-	private enum Clase {
-		SCOUT(1),
-		SOLDIER(2),
-		PYRO(3),
-		DEMOMAN(4),
-		HEAVY(5),
-		ENGINEER(6),
-		MEDIC(7),
-		SNIPER(8),
-		SPY(9);
-		
-		private int num;
-		
-		Clase(int n){
-			this.num = n;
-		}
-		
-		public int getNum( ) {
-			return num;
-		}
-		
-		public static Clase obtenerClase(int n) {
-			for(Clase cl : values()) {
-				if(cl.getNum() == n) {
-					return cl;
-				}
-			}
-			throw new IllegalArgumentException("n inválido");
-		}
-	}
-	
 	// Clase seleccionada
-	private Clase clase;*/
 	private int clase;
 	
 	private int clipsize;
 	private boolean isPrimary = false;
 	
 	// Lista de stats posibles
-	ArrayList<Stat> stats = new ArrayList<>();
+	private ArrayList<Stat> stats = new ArrayList<>();
 	
 	// Cantidad de stats de cada tipo
-	int statsPositivosDisponibles = 0;
-	int statsNegativosDisponibles = 0;
+	private int statsPositivosDisponibles = 0;
+	private int statsNegativosDisponibles = 0;
 	
 	// Listas de stats seleccionados
-	ArrayList<Stat> positivos = new ArrayList<>();
-	ArrayList<Stat> negativos = new ArrayList<>();
-	ArrayList<Stat> neutrales = new ArrayList<>();
+	private ArrayList<Stat> positivos = new ArrayList<>();
+	private ArrayList<Stat> negativos = new ArrayList<>();
+	private ArrayList<Stat> neutrales = new ArrayList<>();
 	
 	// Puntajes
 	private float puntuacionPositiva = 0;
 	private float puntuacionNegativa = 0;
 	private float puntuacionBanner = 0;
+	
+	private int primaryAmmo;
+	private int secondaryAmmo;
 	
 	/* GENERIC */			Stat maxPrimaryAmmo, maxSecondaryAmmo;
 	/* PASSIVE */			Stat maxHp, passiveFireResistance, passiveExpResistance, passiveBulletResistance, passiveHpRegen, passiveSpeed, passiveKb, passiveFallDmg, passiveNoFall;
@@ -90,32 +59,49 @@ public class Weapon {
 		switch(c) {
 		case "Scout":
 			clase = 1;
+			primaryAmmo = 32;
+			secondaryAmmo = 36;
 			break;
 		case "Soldier":
 			clase = 2;
+			primaryAmmo = 20;
+			secondaryAmmo = 32;
 			break;
 		case "Pyro":
 			clase = 3;
+			primaryAmmo = 200;
+			secondaryAmmo = 32;
 			break;
 		case "Demoman":
 			clase = 4;
+			primaryAmmo = 16;
+			secondaryAmmo = 24;
 			break;
 		case "Heavy":
 			clase = 5;
+			primaryAmmo = 200;
+			secondaryAmmo = 32;
 			break;
 		case "Engineer":
 			clase = 6;
+			primaryAmmo = 32;
+			secondaryAmmo = 200;
 			break;
 		case "Medic":
 			clase = 7;
+			primaryAmmo = 150;
 			break;
 		case "Sniper":
 			clase = 8;
+			primaryAmmo = 25;
+			secondaryAmmo = 75;
 			break;
 		case "Spy":
 			clase = 9;
+			primaryAmmo = 24;
 			break;
 		}
+		setTipoGenerico();
 		
 		definir(t);
 	}
@@ -125,7 +111,7 @@ public class Weapon {
 		{/*
 			case "scattergun":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				SetType_Shotgun();
 				SetClipSize(6);
 				IsPrimary = true;
@@ -133,7 +119,7 @@ public class Weapon {
 				
 			case "pistol":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				SetClipSize(12);
 				break;
 				
@@ -155,7 +141,7 @@ public class Weapon {
 				/*
 			case "shotgun":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				SetType_Shotgun();
 				SetClipSize(6);
 				switch(clase){
@@ -207,7 +193,7 @@ public class Weapon {
 				
 			case "grenade launcher":
 				setTipoArma();
-				SetType_Projectile();
+				setTipoProyectil();
 				setTipoExplosion();
 				SetClipSize(4);
 				SetType_GrenadeLauncher();
@@ -216,7 +202,7 @@ public class Weapon {
 				
 			case "stickybomb launcher":
 				setTipoArma();
-				SetType_Projectile();
+				setTipoProyectil();
 				setTipoExplosion();
 				SetClipSize(8);
 				SetType_StickybombLauncher();
@@ -247,7 +233,7 @@ public class Weapon {
 				
 			case "minigun":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				DeleteStatPositive("clip");
 				DeleteStatNegative("clip");
 				DeleteStatPositive("fastreload");
@@ -279,7 +265,7 @@ public class Weapon {
 				
 			case "smg":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				SetClipSize(25);
 				SetType_SMG();
 				break;
@@ -291,11 +277,25 @@ public class Weapon {
 				
 			case "revolver":
 				setTipoArma();
-				SetType_Bullets();
+				setTipoBalas();
 				SetClipSize(6);
 				SetType_Revolver();
 				IsPrimary = true;
 				break;*/
+		}
+		relacionadasGenerico();
+	}
+	
+	private void setTipoGenerico() {
+		maxPrimaryAmmo = new Stat("+", "% max primary ammo on wearer", 20, "-", "% max primary ammo on wearer", primaryAmmo);			stats.add(maxPrimaryAmmo);		maxPrimaryAmmo.setNombre("\033[33mmaxPrimaryAmmo\033[0m");
+		maxSecondaryAmmo = new Stat("+", "% max secondary ammo on wearer", 20, "-", "% max secondary ammo on wearer", secondaryAmmo);	stats.add(maxSecondaryAmmo);	maxSecondaryAmmo.setNombre("\033[33mmaxSecondaryAmmo\033[0m");
+	}
+	
+	private void relacionadasGenerico() {
+		if(isPrimary) {
+			maxPrimaryAmmo.setLista(Arrays.asList(noAmmoNeed));
+		} else {
+			maxSecondaryAmmo.setLista(Arrays.asList(noAmmoNeed));
 		}
 	}
 	
@@ -329,13 +329,11 @@ public class Weapon {
 		damage.setLista(Arrays.asList(damagePlayers, damageBuildings));
 		damagePlayers.setLista(Arrays.asList(damage));
 		damageBuildings.setLista(Arrays.asList(damage));
-		/*
 		if(isPrimary) {
 			noAmmoNeed.setLista(Arrays.asList(maxPrimaryAmmo, noAmmoDispensers, airblastCost));
 		} else {
 			noAmmoNeed.setLista(Arrays.asList(maxSecondaryAmmo, noAmmoDispensers, airblastCost));
 		}
-		*/
 		noAmmoDispensers.setLista(Arrays.asList(noAmmoNeed));
 	}
 	
@@ -359,13 +357,13 @@ public class Weapon {
 	}
 	
 	private void setTipoFlameThrower() {
-		flameRange = new Stat(10, 5, "+", "% flame thrower range", 35, "-", "% flame thrower range", 10);									stats.add(flameRange);		flameRange.setNombre("flameRange");
-		afterburnDmg = new Stat(100, 25, "+", "% afterburn damage bonus", 25, "-", "% afterburn damage penalty", 75);						stats.add(afterburnDmg);	afterburnDmg.setNombre("afterburnDmg");
-		airblastCost = new Stat(50, 25, "-", "% airblast cost", 30, "+", "% airblast cost", 150);											stats.add(airblastCost);	airblastCost.setNombre("airblastCost");
-		airblastPush = new Stat(20, 5, "+", "% airblast push force", 20, "-", "% airblast push force", 20);									stats.add(airblastPush);	airblastPush.setNombre("airblastPush");
-		airblastSpeed = new Stat(50, 25, "+", "% repressurization rate on Alt-Fire", 40, "-", "% repressurization rate on Alt-Fire", 50);	stats.add(airblastSpeed);	airblastSpeed.setNombre("airblastSpeed");
-		noAirblast = new Stat("No airblast", 50, false);																					stats.add(noAirblast);		noAirblast.setNombre("noAirblast");
-		flameSpeed = new Stat(50, 10, "+", "% flame travel speed", 35, "-", "% flame travel speed", 30);									stats.add(flameSpeed);		flameSpeed.setNombre("flameSpeed");
+		flameRange = new Stat(10, 5, "+", "% flame thrower range", 35, "-", "% flame thrower range", 10);									stats.add(flameRange);		flameRange.setNombre("\033[33mflameRange\033[0m");
+		afterburnDmg = new Stat(100, 25, "+", "% afterburn damage bonus", 25, "-", "% afterburn damage penalty", 75);						stats.add(afterburnDmg);	afterburnDmg.setNombre("\033[33mafterburnDmg\033[0m");
+		airblastCost = new Stat(50, 25, "-", "% airblast cost", 30, "+", "% airblast cost", 150);											stats.add(airblastCost);	airblastCost.setNombre("\033[33mairblastCost\033[0m");
+		airblastPush = new Stat(20, 5, "+", "% airblast push force", 20, "-", "% airblast push force", 20);									stats.add(airblastPush);	airblastPush.setNombre("\033[33mairblastPush\033[0m");
+		airblastSpeed = new Stat(50, 25, "+", "% repressurization rate on Alt-Fire", 40, "-", "% repressurization rate on Alt-Fire", 50);	stats.add(airblastSpeed);	airblastSpeed.setNombre("\033[33mairblastSpeed\033[0m");
+		noAirblast = new Stat("No airblast", 50, false);																					stats.add(noAirblast);		noAirblast.setNombre("\033[91mnoAirblast\033[0m");
+		flameSpeed = new Stat(50, 10, "+", "% flame travel speed", 35, "-", "% flame travel speed", 30);									stats.add(flameSpeed);		flameSpeed.setNombre("\033[33mflameSpeed\033[0m");
 	}
 	
 	private void relacionadasFlameThrower() {
@@ -376,6 +374,8 @@ public class Weapon {
 	}
 	
 	public void generarArma() {
+		
+		// Ordenar la lista de stats y obtener cantidad de positivos y negativos
 		Collections.sort(stats);
 		for(Stat s: stats) {
 			if(s.getType() == 1 || s.getType() == 2) {
@@ -389,13 +389,34 @@ public class Weapon {
 		}
 		System.out.print("\n\n POSITIVOS: "+ statsPositivosDisponibles);
 		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
+		
+		// Generar los stats positivos
 		for(int i = 0; i < 3; i++) {
 			getStatPositivo();
+		}
+		
+		// Generar los stats positivos
+		for(int i = 0; i < 3; i++) {
+			getStatNegativo();
+		}
+		
+		System.out.print("\n ");
+		for(Stat s: stats) {
+			System.out.print("\n "+ s.getNombre());
+		}
+		System.out.print("\n ");
+		
+		for(Stat s : positivos) {
+			System.out.print("\n \033[36m" + s.getTexto() + "\033[0m");
+		}
+		for(Stat s : negativos) {
+			System.out.print("\n \033[91m" + s.getTexto() + "\033[0m");
 		}
 	}
 	
 	public void getStatPositivo() {
 		
+		// Seleccionar un stat positivo aleatorio de la lista
 		Random rand = new Random();
 		int r = rand.nextInt(statsPositivosDisponibles);
 		Stat statAux = stats.get(r);
@@ -403,10 +424,29 @@ public class Weapon {
 		System.out.print("\n\n   "+statAux.getTexto()+"\n");
 		positivos.add(statAux);
 		eliminarStats(statAux);
-		
+		/*
 		for(Stat s: stats) {
 			System.out.print("\n "+ s.getNombre());
-		}
+		}*/
+		System.out.print("\n\n POSITIVOS: "+ statsPositivosDisponibles);
+		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
+	}
+	
+	public void getStatNegativo() {
+		
+		// Seleccionar un stat negativo aleatorio de la lista
+		Random rand = new Random();
+		int r = rand.nextInt(statsNegativosDisponibles);
+		Stat statAux = stats.get(r+stats.size()-statsNegativosDisponibles);
+		//Stat statAux = stats.get(stats.indexOf(maxPrimaryAmmo));
+		statAux.setNegativo();
+		System.out.print("\n\n   "+statAux.getTexto()+"\n");
+		negativos.add(statAux);
+		eliminarStats(statAux);
+		/*
+		for(Stat s: stats) {
+			System.out.print("\n "+ s.getNombre());
+		}*/
 		System.out.print("\n\n POSITIVOS: "+ statsPositivosDisponibles);
 		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
 	}

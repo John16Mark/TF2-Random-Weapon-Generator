@@ -35,6 +35,8 @@ public class Stat implements Comparable<Stat>{
 	private int type;
 	// Lista de stats con los que se relaciona
 	private ArrayList<Stat> relacionados = new ArrayList<Stat>();
+	// Para ammo pool:
+	private int max;
 	
 	// Constructor de stat con número aleatorio que solamente es positivo o negativo.
 	public Stat(int m, int p, String t1, String t2, int w, boolean esPositivo) {
@@ -70,12 +72,28 @@ public class Stat implements Comparable<Stat>{
 	public Stat(int clip, String t1, String t2, int w, String tt1, String tt2) {
 		type = 2;
 		maxPositivo = clip;
+		maxNegativo = clip;
 		esPorcentual = true;
 		textoPositivo1 = t1;
 		textoPositivo2 = t2;
 		weight = w;
 		textoNegativo1 = tt1;
 		textoNegativo2 = tt2;
+	}
+	
+	// constructor de stat ammo pool
+	public Stat(String t1, String t2, int w, String tt1, String tt2, int maxAmmo) {
+		type = 2;
+		textoPositivo1 = t1;
+		textoPositivo2 = t2;
+		weight = w;
+		textoNegativo1 = tt1;
+		textoNegativo2 = tt2;
+		max = maxAmmo;
+		maxPositivo = maxAmmo;
+		maxNegativo = maxAmmo;
+		esPorcentual = true;
+		definirDivisorAmmo();
 	}
 	
 	// Constructor de stat que solo contiene texto
@@ -107,6 +125,10 @@ public class Stat implements Comparable<Stat>{
 					r = rand.nextInt((maxPositivo)/paso)+1;
 					valor1 = r*paso;
 					puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxPositivo));
+				} else {
+					r = rand.nextInt((maxNegativo)/paso)+1;
+					valor1 = r*paso;
+					puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxNegativo));
 				}
 			} else {
 				if(tipo == tipos.POSITIVO) {
@@ -115,17 +137,23 @@ public class Stat implements Comparable<Stat>{
 					valor1 *= 100;
 					valor1 /= maxPositivo;
 					puntaje = Float.valueOf(weight)*(r/Float.valueOf(maxPositivo));
+				} else {
+					r = rand.nextInt(maxNegativo - 1)+1;
+					valor1 = r;
+					valor1 *= 100;
+					valor1 /= maxNegativo;
+					puntaje = Float.valueOf(weight)*(r/Float.valueOf(maxNegativo-1));
 				}
 			}
 		}
 	}
 	
-	private void definirDivisorClip() {
+	private void definirDivisorAmmo() {
 		int n;
 		Random rand = new Random();
 		ArrayList<Integer> divisores = new ArrayList();
 		divisores.add(4);
-		switch(maxPositivo)
+		switch(max)
 		{
 			case 36:
 				divisores.add(6);
@@ -146,7 +174,9 @@ public class Stat implements Comparable<Stat>{
 				break;
 		}
 		n = rand.nextInt(divisores.size());
-		paso = divisores.get(n);
+		maxPositivo = max/divisores.get(n);
+		maxNegativo = max/divisores.get(n);
+		System.out.print("\n\n Max negativo: "+maxNegativo+"\n\n\n");
 	}
 	
 	public float getPuntaje() {
@@ -174,6 +204,11 @@ public class Stat implements Comparable<Stat>{
 		definirPuntaje();
 	}
 	
+	public void setNegativo() {
+		tipo = tipos.NEGATIVO;
+		definirPuntaje();
+	}
+	
 	public String getTexto() {
 		if(soloTexto) {
 			if (tipo == tipos.POSITIVO) {
@@ -183,9 +218,9 @@ public class Stat implements Comparable<Stat>{
 			}
 		}
 		if (tipo == tipos.POSITIVO) {
-			return textoPositivo1 + valor1 + textoPositivo2 + puntaje; 
+			return textoPositivo1 + valor1 + textoPositivo2;
 		} else {
-			return textoNegativo1 + valor1 + textoNegativo2 + puntaje; 
+			return textoNegativo1 + valor1 + textoNegativo2;
 		}
 	}
 	
