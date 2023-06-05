@@ -1,9 +1,10 @@
 package def;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Stat {
+public class Stat implements Comparable<Stat>{
 	
 	// Nombre clave que tendrá el stat
 	private String nombreStat;
@@ -28,28 +29,33 @@ public class Stat {
 	private int valor2;
 	// Define si la variable aleatoria está definida porcentualmente
 	private boolean esPorcentual = false;
-	private enum tipos {POSITIVO, NEGATIVO, DOBLE};
+	private boolean soloTexto = false;
+	private enum tipos {POSITIVO, NEGATIVO};
 	private tipos tipo;
+	private int type;
 	// Lista de stats con los que se relaciona
-	private ArrayList<Stat> relacionados;
+	private ArrayList<Stat> relacionados = new ArrayList<Stat>();
 	
+	// Constructor de stat con número aleatorio que solamente es positivo o negativo.
 	public Stat(int m, int p, String t1, String t2, int w, boolean esPositivo) {
-		
 		paso = p;
 		if(esPositivo) {
+			type = 1;
 			maxPositivo = m;
 			textoPositivo1 = t1;
 			textoPositivo2 = t2;
 		} else {
+			type = 3;
 			maxNegativo = m;
 			textoNegativo1 = t1;
 			textoNegativo2 = t2;
 		}
-		
 		weight = w;
 	}
 	
+	// Constructor de stat que puede ser tanto positivo y negativo con número aleatorio
 	public Stat(int m, int p, String t1, String t2, int w, String tt1, String tt2, int m2) {
+		type = 2;
 		maxPositivo = m;
 		paso = p;
 		textoPositivo1 = t1;
@@ -60,7 +66,9 @@ public class Stat {
 		maxNegativo = m2;
 	}
 	
+	// Constructor de stat clip size
 	public Stat(int clip, String t1, String t2, int w, String tt1, String tt2) {
+		type = 2;
 		maxPositivo = clip;
 		esPorcentual = true;
 		textoPositivo1 = t1;
@@ -70,24 +78,44 @@ public class Stat {
 		textoNegativo2 = tt2;
 	}
 	
+	// Constructor de stat que solo contiene texto
+	public Stat(String t, int w, boolean esPositivo) {
+		soloTexto = true;
+		weight = w;
+		if(esPositivo) {
+			type = 1;
+			textoPositivo1 = t;
+		} else {
+			type = 3;
+			textoNegativo1 = t;
+		}
+	}
+	
+	public void setLista(List<Stat> rel) {
+		relacionados = new ArrayList<>(rel);
+	}
+	
 	private void definirPuntaje(){
 		
 		Random rand = new Random();
 		int r;
-		
-		if(!esPorcentual) {
-			if(tipo == tipos.POSITIVO) {
-				r = rand.nextInt((maxPositivo)/paso)+1;
-				valor1 = r*paso;
-				puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxPositivo));
-			}
+		if(soloTexto) {
+			puntaje = weight;
 		} else {
-			if(tipo == tipos.POSITIVO) {
-				r = rand.nextInt(maxPositivo)+1;
-				valor1 = r;
-				valor1 *= 100;
-				valor1 /= maxPositivo;
-				puntaje = Float.valueOf(weight)*(r/Float.valueOf(maxPositivo));
+			if(!esPorcentual) {
+				if(tipo == tipos.POSITIVO) {
+					r = rand.nextInt((maxPositivo)/paso)+1;
+					valor1 = r*paso;
+					puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxPositivo));
+				}
+			} else {
+				if(tipo == tipos.POSITIVO) {
+					r = rand.nextInt(maxPositivo)+1;
+					valor1 = r;
+					valor1 *= 100;
+					valor1 /= maxPositivo;
+					puntaje = Float.valueOf(weight)*(r/Float.valueOf(maxPositivo));
+				}
 			}
 		}
 	}
@@ -125,16 +153,44 @@ public class Stat {
 		return puntaje;
 	}
 	
+	public int getType() {
+		return type;
+	}
+	
+	public String getNombre() {
+		return nombreStat;
+	}
+	
+	public ArrayList<Stat> getLista() {
+		return relacionados;
+	}
+	
+	public void setNombre(String s) {
+		nombreStat = s;
+	}
+	
 	public void setPositivo() {
 		tipo = tipos.POSITIVO;
 		definirPuntaje();
 	}
 	
 	public String getTexto() {
+		if(soloTexto) {
+			if (tipo == tipos.POSITIVO) {
+				return textoPositivo1;
+			} else {
+				return textoNegativo1;
+			}
+		}
 		if (tipo == tipos.POSITIVO) {
 			return textoPositivo1 + valor1 + textoPositivo2 + puntaje; 
 		} else {
 			return textoNegativo1 + valor1 + textoNegativo2 + puntaje; 
 		}
 	}
+	
+	@Override
+    public int compareTo(Stat otro) {
+        return Integer.compare(this.type, otro.getType());
+    }
 }
