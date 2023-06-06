@@ -38,6 +38,8 @@ public class Stat implements Comparable<Stat>{
 	// Para ammo pool:
 	private int max;
 	
+	private boolean esTiempo = false;
+	
 	// Constructor de stat con número aleatorio que solamente es positivo o negativo.
 	public Stat(int m, int p, String t1, String t2, int w, boolean esPositivo) {
 		paso = p;
@@ -66,6 +68,20 @@ public class Stat implements Comparable<Stat>{
 		textoNegativo1 = tt1;
 		textoNegativo2 = tt2;
 		maxNegativo = m2;
+	}
+	
+	// Constructor de stat de tiempo
+	public Stat(int m, int p,  int m2, String t1, String t2, int w, String tt1, String tt2) {
+		type = 2;
+		maxPositivo = m;
+		paso = p;
+		textoPositivo1 = t1;
+		textoPositivo2 = t2;
+		weight = w;
+		textoNegativo1 = tt1;
+		textoNegativo2 = tt2;
+		maxNegativo = m2;
+		esTiempo = true;
 	}
 	
 	// Constructor de stat clip size
@@ -125,10 +141,26 @@ public class Stat implements Comparable<Stat>{
 					r = rand.nextInt((maxPositivo)/paso)+1;
 					valor1 = r*paso;
 					puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxPositivo));
+					if(esTiempo) {
+						if(valor1 >= 20) {
+							textoPositivo1 = "2.";
+						} else if(valor1 >= 10) {
+							textoPositivo1 = "1.";
+						}
+						valor1 %= 10;
+					}
 				} else {
 					r = rand.nextInt((maxNegativo)/paso)+1;
 					valor1 = r*paso;
 					puntaje = Float.valueOf(weight)*(Float.valueOf(valor1)/Float.valueOf(maxNegativo));
+					if(esTiempo) {
+						if(valor1 >= 20) {
+							textoPositivo1 = "2.";
+						} else if(valor1 >= 10) {
+							textoPositivo1 = "1.";
+						}
+						valor1 %= 10;
+					}
 				}
 			} else {
 				if(tipo == tipos.POSITIVO) {

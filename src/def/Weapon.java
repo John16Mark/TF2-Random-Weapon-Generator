@@ -50,9 +50,20 @@ public class Weapon {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/* Rocket Launcher */	Stat rocketSelfDamage, RocketDamageWhileRJ, firingSpeedWhileRJ, projectileSpeedWhileRJ, radiusWhileRJ;
 	/* Shotgun */			Stat explosiveBullets, ShotgunDmgWhileRJ;
+	/* Boots */
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/* Flame Thrower */		Stat flameRange, afterburnDmg, airblastCost, airblastPush, airblastSpeed, noAirblast, flameSpeed;
-	/* Shotgun */			Stat fireBullets, minicritsOnFire, minicritsAirblast;
+	/* Shotgun */			Stat fireBullets, minicritsOnFire, minicritsAirblast, damageWhileExpJump;
+	/* Flare Gun */
+	/* Fireaxe */
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Grenade Launcher */		Stat pipeSelfDamage, fuseTime, bombsRollLess, bombsShatter;
+	/* Stickybomb Launcher */	Stat stickySelfDamage, moreStickies, stickyArmTime, stickyChargTime, StickyDmgCharge;
+	/* Sword */
+	/* Bottle */
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Minigun */			
+	/* Shotgun */
 	
 	public Weapon(String c, String t) {
 		
@@ -108,24 +119,32 @@ public class Weapon {
 	
 	void definir(String t) {
 		switch(t)
-		{/*
-			case "scattergun":
+		{
+			case "Scattergun":
+				clipsize = 6;
 				setTipoArma();
 				setTipoBalas();
-				SetType_Shotgun();
-				SetClipSize(6);
-				IsPrimary = true;
-				break;
+				setTipoEscopeta();
+				isPrimary = true;
 				
+				relacionadasArma();
+				relacionadasBalas();
+				relacionadasEscopeta();
+				break;
+				/*
 			case "pistol":
 				setTipoArma();
 				setTipoBalas();
 				SetClipSize(12);
+				
+				relacionadasArma();
 				break;
 				
 			case "bat":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				*/
 			case "Rocket Launcher":
@@ -138,27 +157,32 @@ public class Weapon {
 				
 				relacionadasArma();
 				break;
-				/*
-			case "shotgun":
+				
+			case "Shotgun":
+				clipsize = 6;
 				setTipoArma();
 				setTipoBalas();
-				SetType_Shotgun();
-				SetClipSize(6);
+				setTipoEscopeta();
 				switch(clase){
-					case "Soldier":
-						SetType_ShotgunSoldier();
+					case 2:
+						setTipoShotgunSoldier();
 						break;
-					case "Pyro":
-						SetType_ShotgunPyro();
+					case 3:
+						setTipoShotgunPyro();
 						break;
-					case "Heavy":
-						SetType_ShotgunHeavy();
+					case 5:
+						//SetType_ShotgunHeavy();
 						break;
-					case "Engineer":
-						SetType_ShotgunEngineer();
-						break;}
+					case 6:
+						//SetType_ShotgunEngineer();
+						break;
+				}
+
+				relacionadasArma();
+				relacionadasBalas();
+				relacionadasEscopeta();
 				break;
-				
+				/*
 			case "banner":
 				SetType_Passive();
 				DeleteStatPositive("maxsecondaryammo");
@@ -170,6 +194,8 @@ public class Weapon {
 			case "shovel":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				*/
 				
@@ -189,46 +215,55 @@ public class Weapon {
 			case "fireaxe":
 				setTipoArma();
 				SetType_Melee();
-				break;
 				
-			case "grenade launcher":
+				relacionadasArma();
+				break;
+				*/
+			case "Grenade Launcher":
+				clipsize = 4;
 				setTipoArma();
 				setTipoProyectil();
 				setTipoExplosion();
-				SetClipSize(4);
-				SetType_GrenadeLauncher();
-				IsPrimary = true;
+				setTipoGrenadeLauncher();
+				isPrimary = true;
+				
+				relacionadasArma();
+				relacionadasGrenadeLauncher();
 				break;
 				
-			case "stickybomb launcher":
+			case "Stickybomb Launcher":
+				clipsize = 8;
 				setTipoArma();
 				setTipoProyectil();
 				setTipoExplosion();
-				SetClipSize(8);
-				SetType_StickybombLauncher();
-				break;
+				setTipoStickybombLauncher();
 				
+				relacionadasArma();
+				break;
+				/*
 			case "bottle":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				
 			case "sword":
 				setTipoArma();
-				DeleteStatPositive("clip");
-				DeleteStatNegative("clip");
-				DeleteStatPositive("fastreload");
-				DeleteStatNegative("fastreload");
+				stats.remove(stats.indexOf(clipSize));
+				stats.remove(stats.indexOf(reloadSpeed));
 				DeleteStatPositive("deploy");
 				DeleteStatNegative("deploy");
 				DeleteStatPositive("holster");
 				DeleteStatNegative("holster");
-				DeleteStatPositive("hithp");
+				stats.remove(stats.indexOf(hpOnHit));
 				DeleteStatPositive("noammoneed");
 				DeleteStatNegative("randomcrits");
 				SetType_Melee();
 				SetType_Sword();
 				IsMelee = true;
+				
+				relacionadasArma();
 				break;
 				
 			case "minigun":
@@ -240,11 +275,15 @@ public class Weapon {
 				DeleteStatNegative("fastreload");
 				DeleteStatPositive("hithp");
 				SetType_Minigun();
+				
+				relacionadasArma();
 				break;
 				
 			case "fists":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				
 			case "syringe gun":
@@ -252,6 +291,8 @@ public class Weapon {
 				SetClipSize(40);
 				SetType_SyringeGun();
 				IsPrimary = true;
+				
+				relacionadasArma();
 				break;
 				
 			case "medigun":
@@ -261,6 +302,8 @@ public class Weapon {
 			case "bonesaw":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				
 			case "smg":
@@ -268,11 +311,15 @@ public class Weapon {
 				setTipoBalas();
 				SetClipSize(25);
 				SetType_SMG();
+				
+				relacionadasArma();
 				break;
 				
 			case "kukri":
 				setTipoArma();
 				SetType_Melee();
+				
+				relacionadasArma();
 				break;
 				
 			case "revolver":
@@ -281,6 +328,8 @@ public class Weapon {
 				SetClipSize(6);
 				SetType_Revolver();
 				IsPrimary = true;
+				
+				relacionadasArma();
 				break;*/
 		}
 		relacionadasGenerico();
@@ -337,6 +386,25 @@ public class Weapon {
 		noAmmoDispensers.setLista(Arrays.asList(noAmmoNeed));
 	}
 	
+	private void setTipoBalas() {
+		accuracy = new Stat(25, 5, "+", "% more accurate", 35, "-", "% less accurate", 20);							stats.add(accuracy);			accuracy.setNombre("\033[33maccuracy\033[0m");
+		minicritsFromBack = new Stat("Mini-crits targets when fired at their back from close range", 20, true);		stats.add(minicritsFromBack);	minicritsFromBack.setNombre("\033[36mminicritsFromBack\033[0m");
+	}
+	
+	private void relacionadasBalas() {
+		accuracy.setLista(Arrays.asList(fixedPattern));
+	}
+	
+	private void setTipoEscopeta() {
+		// morePellets, fixedPattern;
+		morePellets = new Stat(50, 10, "+", "% bullets per shot", 40, "-", "% bullets per shot", 60);		stats.add(morePellets);		morePellets.setNombre("\033[33mmorePellets\033[0m");
+		fixedPattern = new Stat("Fires a wide, fixed shot pattern", 15, true);								stats.add(fixedPattern);	fixedPattern.setNombre("\033[36mfixedPattern\033[0m");
+	}
+	
+	private void relacionadasEscopeta() {
+		fixedPattern.setLista(Arrays.asList(accuracy));
+	}
+	
 	private void setTipoProyectil() {
 		projectileSpeed = new Stat(80, 5,"+", "% projectile speed", 35, "-", "% projectile speed", 20);		stats.add(projectileSpeed);		projectileSpeed.setNombre("\033[33mprojectileSpeed\033[0m");
 		projectileSpread = new Stat(3, 1, "+", " degrees random projectile deviation", 40, false);			stats.add(projectileSpread);	projectileSpread.setNombre("\033[91mprojectileSpread\033[0m");
@@ -348,6 +416,9 @@ public class Weapon {
 		fireExplosion = new Stat("Explosions ignite enemies for up to 2 seconds", 30, true);				stats.add(fireExplosion);		fireExplosion.setNombre("\033[36mfireExplosion\033[0m");
 	}
 	
+	/**************************************************************************************************
+	 * 											  SOLDIER											 *
+	**************************************************************************************************/
 	private void setTipoRocketLauncher() {
 		rocketSelfDamage = new Stat(25, 5, "-", "% blast damage from rocket jumps", 20, "+", "% blast damage from rocket jumps", 25);						stats.add(rocketSelfDamage);		rocketSelfDamage.setNombre("\033[33mrocketSelfDamage\033[0m");
 		RocketDamageWhileRJ = new Stat(20, 5, "+", "% damage bonus while rocket jumping", 35, "-", "% damage penalty while rocket jumping", 20);			stats.add(RocketDamageWhileRJ);		RocketDamageWhileRJ.setNombre("\033[33mRocketDamageWhileRJ\033[0m");
@@ -356,6 +427,14 @@ public class Weapon {
 		radiusWhileRJ = new Stat(20, 5, "+", "% explosion radius while rocket jumping", 30, "-", "% explosion radius while rocket jumping", 20);			stats.add(radiusWhileRJ);			radiusWhileRJ.setNombre("\033[33mradiusWhileRJ\033[0m");
 	}
 	
+	private void setTipoShotgunSoldier() {
+		explosiveBullets = new Stat("Bullets create small explosions when hitting an enemy", 25, true);												stats.add(explosiveBullets);		explosiveBullets.setNombre("\033[36mexplosiveBullets\033[0m");
+		ShotgunDmgWhileRJ = new Stat(20, 5, "+", "% damage bonus while rocket jumping", 20, "-", "% damage penalty while rocket jumping" ,20);		stats.add(ShotgunDmgWhileRJ);		ShotgunDmgWhileRJ.setNombre("\033[33mShotgunDmgWhileRJ\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 												PYRO											 *
+	**************************************************************************************************/
 	private void setTipoFlameThrower() {
 		flameRange = new Stat(10, 5, "+", "% flame thrower range", 35, "-", "% flame thrower range", 10);									stats.add(flameRange);		flameRange.setNombre("\033[33mflameRange\033[0m");
 		afterburnDmg = new Stat(100, 25, "+", "% afterburn damage bonus", 25, "-", "% afterburn damage penalty", 75);						stats.add(afterburnDmg);	afterburnDmg.setNombre("\033[33mafterburnDmg\033[0m");
@@ -371,6 +450,45 @@ public class Weapon {
 		airblastPush.setLista(Arrays.asList(noAirblast));
 		airblastSpeed.setLista(Arrays.asList(noAirblast));
 		noAirblast.setLista(Arrays.asList(airblastSpeed, airblastPush, airblastCost));
+	}
+	
+	private void setTipoShotgunPyro() {
+		// fireBullets, minicritsOnFire, minicritsAirblast, damageWhileExpJump;
+		fireBullets = new Stat("On Hit: Ignites players up to 2 seconds", 20, true);																	stats.add(fireBullets);				fireBullets.setNombre("\033[36mfireBullets\033[0m");
+		minicritsOnFire = new Stat("100% mini-crits vs burning players", 35, true);																		stats.add(minicritsOnFire);			minicritsOnFire.setNombre("\033[36mminicritsOnFire\033[0m");
+		minicritsAirblast = new Stat("Mini-crits targets launched airborne by airblast", 40, true);														stats.add(minicritsAirblast);		minicritsAirblast.setNombre("\033[36mminicritsAirblast\033[0m");
+		damageWhileExpJump = new Stat(20, 5, "+", "% damage bonus while explosive jumping", 15, "-", "% damage penalty while explosive jumping" ,20);	stats.add(damageWhileExpJump);		damageWhileExpJump.setNombre("\033[33mdamageWhileExpJump\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 											  DEMOMAN											 *
+	**************************************************************************************************/
+	private void setTipoGrenadeLauncher() {
+		pipeSelfDamage = new Stat(25, 5, "-", "% damage to self", 25, "+", "% damage to self", 25);				stats.add(pipeSelfDamage);		pipeSelfDamage.setNombre("\033[33mpipeSelfDamage\033[0m");
+		fuseTime = new Stat(30, 5, "-", "% fuse time on grenades", 20, "+", "% fuse time on grenades", 20);		stats.add(fuseTime);			fuseTime.setNombre("\033[33mfuseTime\033[0m");
+		bombsRollLess = new Stat("Grenades have very little bounce and roll", 15, true);						stats.add(bombsRollLess);		bombsRollLess.setNombre("\033[36mbombsRollLess\033[0m");
+		bombsShatter = new Stat("Launched bombs shatter on surfaces", 20, false);								stats.add(bombsShatter);		fuseTime.setNombre("\033[91mbombsShatter\033[0m");
+	}
+	
+	private void relacionadasGrenadeLauncher() {
+		bombsRollLess.setLista(Arrays.asList(bombsShatter));
+		fuseTime.setLista(Arrays.asList(bombsShatter));
+		bombsShatter.setLista(Arrays.asList(fuseTime, bombsRollLess));
+	}
+	
+	private void setTipoStickybombLauncher() {
+		stickySelfDamage = new Stat(25, 5, "-", "% blast damage from stickybomb jumps", 25, "+", "% blast damage from stickybomb jumps", 25);	stats.add(stickySelfDamage);	stickySelfDamage.setNombre("\033[33mstickySelfDamage\033[0m");
+		moreStickies = new Stat(8, 1, "+", " max stickybombs out", 40, "-", " max stickybombs out", 6);											stats.add(moreStickies);		moreStickies.setNombre("\033[33mmoreStickies\033[0m");
+		stickyArmTime = new Stat(4, 1, 10, "0.", " sec faster bomb arm time", 40, "0.", " sec slower bomb arm time");							stats.add(stickyArmTime);		stickyArmTime.setNombre("\033[33mstickyArmTime\033[0m");
+		stickyChargTime = new Stat(70, 5, "Max charge time decreased by ", "%", 25, "Max charge time increased by ", "%", 30);					stats.add(stickyChargTime);		stickyChargTime.setNombre("\033[33mstickyChargTime\033[0m");
+		StickyDmgCharge = new Stat(35, 5, "Up to +", "% damage based on charge", 30, "Up to -", "% damage based on charge", 35);				stats.add(StickyDmgCharge);		StickyDmgCharge.setNombre("\033[33mStickyDmgCharge\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 											   HEAVY											 *
+	**************************************************************************************************/
+	private void setTipoMinigun() {
+		
 	}
 	
 	public void generarArma() {
@@ -414,6 +532,10 @@ public class Weapon {
 		}
 	}
 	
+	
+	/* 		public void getStatPositivo()
+	 * Fija un stat de la lista como positivo y elimina sus stats relacionados de la lista
+	*/
 	public void getStatPositivo() {
 		
 		// Seleccionar un stat positivo aleatorio de la lista
@@ -428,10 +550,13 @@ public class Weapon {
 		for(Stat s: stats) {
 			System.out.print("\n "+ s.getNombre());
 		}*/
-		System.out.print("\n\n POSITIVOS: "+ statsPositivosDisponibles);
-		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
+		System.out.print("\n\n  POSITIVOS: "+ statsPositivosDisponibles);
+		System.out.print("\n  NEGATIVOS: "+ statsNegativosDisponibles);
 	}
 	
+	/* 		public void getStatNegativo()
+	 * Fija un stat de la lista como negativo y elimina sus stats relacionados de la lista
+	*/
 	public void getStatNegativo() {
 		
 		// Seleccionar un stat negativo aleatorio de la lista
@@ -447,8 +572,8 @@ public class Weapon {
 		for(Stat s: stats) {
 			System.out.print("\n "+ s.getNombre());
 		}*/
-		System.out.print("\n\n POSITIVOS: "+ statsPositivosDisponibles);
-		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
+		System.out.print("\n\n  POSITIVOS: "+ statsPositivosDisponibles);
+		System.out.print("\n  NEGATIVOS: "+ statsNegativosDisponibles);
 	}
 	
 	public void eliminarStats(Stat s) {
