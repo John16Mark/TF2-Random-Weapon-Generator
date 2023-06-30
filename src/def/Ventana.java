@@ -25,8 +25,8 @@ public class Ventana extends JFrame{
 	JComboBox<String> ComboSlot;
 	// Labels
 	JLabel nombreArma;
-	JLabel texto2;
-	JLabel texto3;
+	JLabel desClase;
+	JLabel desSlot;
 	// Image icon
 	ImageIcon icono;
 	// Imágenes
@@ -73,11 +73,17 @@ public class Ventana extends JFrame{
 		
 		// Definir el botón para generar
 		b_generar = new JButton("GENERATE");
-		b_generar.setBounds(30, 550, 200, 60);
+		b_generar.setBounds(30+30, 550, 200, 60);
+		
+		// Definir label que dice "Clase"
+		desClase = new JLabel("Select the class:");
+		desClase.setBounds(50, 50, 150, 25);
+		desClase.setForeground(Color.WHITE);
+		desClase.setFont(new Font("Arial", Font.PLAIN, 17));
 		
 		// Definir el combo box de las clases
 		ComboClasses = new JComboBox<String>();
-		ComboClasses.setBounds(50, 50, 100, 25);
+		ComboClasses.setBounds(50, 80, 100, 25);
 		ComboClasses.addItem("ANY");
 		ComboClasses.addItem("Scout");
 		ComboClasses.addItem("Soldier");
@@ -89,9 +95,15 @@ public class Ventana extends JFrame{
 		ComboClasses.addItem("Sniper");
 		ComboClasses.addItem("Spy");
 		
+		// Definir label que dice "Clase"
+		desSlot = new JLabel("Select the slot of the weapon:");
+		desSlot.setBounds(50, 130, 250, 25);
+		desSlot.setForeground(Color.WHITE);
+		desSlot.setFont(new Font("Arial", Font.PLAIN, 17));
+		
 		// Definir el combo box de los slots
 		ComboSlot = new JComboBox<String>();
-		ComboSlot.setBounds(50, 90, 100, 25);
+		ComboSlot.setBounds(50, 160, 100, 25);
 		ComboSlot.addItem("ANY");
 		ComboSlot.addItem("Primary");
 		ComboSlot.addItem("Secondary");
@@ -107,18 +119,30 @@ public class Ventana extends JFrame{
 		nombreArma.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		// Definir la imagen del arma de muestra
-		//icono = new ImageIcon("img/Backpack_Bat.png");
-		imagenArma = new Imagen(402,0,256,128);
-		imagenArma.setBounds(402,0,256,256);
-		//imagenArma.setIcon(icono);
+		icono = new ImageIcon("img/Backpack_Bat.png");
+		imagenArma = new Imagen(402, 20,256,128);
+		imagenArma.setBounds(402, 20,256,256);
+		imagenArma.setIcon(icono);
 		imagenArma.setVisible(true);
+		imagenArma.setOpaque(true);
+		
+		// Definir label con el título del arma
+		nombreArma = new JLabel("New weapon for the");
+		nombreArma.setBackground(Color.getColor(null, 0));
+		nombreArma.setFont(TF2Font);
+		nombreArma.setBounds(305, 290, 450, 35);
+		nombreArma.setForeground(calidadUnica);
+		nombreArma.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		// Añadir los elementos a la ventana
 		this.add(b_generar);
+		this.add(desClase);
 		this.add(ComboClasses);
+		this.add(desSlot);
 		this.add(ComboSlot);
 		this.add(nombreArma);
 		this.add(imagenArma);
+		this.add(nombreArma);
 		this.add(panel);
 	}
 }

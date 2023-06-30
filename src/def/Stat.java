@@ -125,6 +125,15 @@ public class Stat implements Comparable<Stat>{
 		}
 	}
 	
+	// Constructor de stat positivo o negativo que solo contiene texto
+		public Stat(String t1, String t2, int w) {
+			type = 2;
+			soloTexto = true;
+			weight = w;
+			textoPositivo1 = t1;
+			textoNegativo1 = t2;
+		}
+	
 	public void setLista(List<Stat> rel) {
 		relacionados = new ArrayList<>(rel);
 	}
@@ -204,6 +213,9 @@ public class Stat implements Comparable<Stat>{
 				divisores.remove(divisores.indexOf(4));
 				divisores.add(25);
 				break;
+			case 200:
+				divisores.remove(divisores.indexOf(4));
+				divisores.add(50);
 		}
 		n = rand.nextInt(divisores.size());
 		maxPositivo = max/divisores.get(n);
@@ -244,15 +256,15 @@ public class Stat implements Comparable<Stat>{
 	public String getTexto() {
 		if(soloTexto) {
 			if (tipo == tipos.POSITIVO) {
-				return textoPositivo1;
+				return textoPositivo1 + "     " + puntaje;
 			} else {
-				return textoNegativo1;
+				return textoNegativo1 + "     " + puntaje;
 			}
 		}
 		if (tipo == tipos.POSITIVO) {
-			return textoPositivo1 + valor1 + textoPositivo2;
+			return textoPositivo1 + valor1 + textoPositivo2 + "     " + puntaje;
 		} else {
-			return textoNegativo1 + valor1 + textoNegativo2;
+			return textoNegativo1 + valor1 + textoNegativo2 + "     " + puntaje;
 		}
 	}
 	

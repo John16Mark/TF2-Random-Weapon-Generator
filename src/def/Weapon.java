@@ -26,6 +26,11 @@ public class Weapon {
 	private ArrayList<Stat> negativos = new ArrayList<>();
 	private ArrayList<Stat> neutrales = new ArrayList<>();
 	
+	// Límites de los stats
+	private int maxStatsPositivos = 3;
+	private int maxStatsNegativos = 3;
+	private int lim = 25;
+	
 	// Puntajes
 	private float puntuacionPositiva = 0;
 	private float puntuacionNegativa = 0;
@@ -62,8 +67,22 @@ public class Weapon {
 	/* Sword */
 	/* Bottle */
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Minigun */			
-	/* Shotgun */
+	/* Minigun */			Stat dmgReswhileSpun, spinUpTime, spinDownTime, moveSpeedSpun, silentSpun;
+	/* Shotgun */			Stat shotgunKnockback, dmgIfRecentSpun, knockbackResActive;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Shotgun */			Stat shotgunDmgToSentryTarget, revengeCrits, revengeMinicrits, shotgunMetalOnHit, shotgunMetalLossShooting, shotgunSentryVuln;
+	/* Pistol */			Stat pistolDmgToSentryTarget, iconOverTarget, pistolMetalOnHit, pistolMetalLossShooting, pistolSentryVuln;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Syringe Gun */		Stat passiveHealing, syringeUberOnHit, syringeHealOnHit, speedBasedUber, dmgBasedUber, fireSpdBasedUber;
+	/* Medigun */			Stat healRate, uberRate, overhealRate, overhealMax, mimicsRJ, buffsOnClass, healBuildings, drainsHealth;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Sniper Rifle */
+	/* SMG */
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Revolver */
+	/* Sapper */
+	/* Knife */
+	/* Invis Watch */
 	
 	public Weapon(String c, String t) {
 		
@@ -131,15 +150,21 @@ public class Weapon {
 				relacionadasBalas();
 				relacionadasEscopeta();
 				break;
-				/*
-			case "pistol":
+				
+			case "Pistol":
 				setTipoArma();
 				setTipoBalas();
-				SetClipSize(12);
+				clipsize = 12;
 				
+				if(clase == 1){
+					//setTipoPistolScout();
+				} else if(clase == 6) {
+					setTipoPistolEngineer();
+				}
+
 				relacionadasArma();
 				break;
-				
+				/*
 			case "bat":
 				setTipoArma();
 				SetType_Melee();
@@ -171,10 +196,10 @@ public class Weapon {
 						setTipoShotgunPyro();
 						break;
 					case 5:
-						//SetType_ShotgunHeavy();
+						setTipoShotgunHeavy();
 						break;
 					case 6:
-						//SetType_ShotgunEngineer();
+						setTipoShotgunEngineer();
 						break;
 				}
 
@@ -265,20 +290,18 @@ public class Weapon {
 				
 				relacionadasArma();
 				break;
-				
-			case "minigun":
+				*/
+			case "Minigun":
 				setTipoArma();
 				setTipoBalas();
-				DeleteStatPositive("clip");
-				DeleteStatNegative("clip");
-				DeleteStatPositive("fastreload");
-				DeleteStatNegative("fastreload");
-				DeleteStatPositive("hithp");
-				SetType_Minigun();
+				stats.remove(stats.indexOf(clipSize));
+				stats.remove(stats.indexOf(reloadSpeed));
+				stats.remove(stats.indexOf(hpOnHit));
+				setTipoMinigun();
 				
 				relacionadasArma();
 				break;
-				
+				/*
 			case "fists":
 				setTipoArma();
 				SetType_Melee();
@@ -453,7 +476,6 @@ public class Weapon {
 	}
 	
 	private void setTipoShotgunPyro() {
-		// fireBullets, minicritsOnFire, minicritsAirblast, damageWhileExpJump;
 		fireBullets = new Stat("On Hit: Ignites players up to 2 seconds", 20, true);																	stats.add(fireBullets);				fireBullets.setNombre("\033[36mfireBullets\033[0m");
 		minicritsOnFire = new Stat("100% mini-crits vs burning players", 35, true);																		stats.add(minicritsOnFire);			minicritsOnFire.setNombre("\033[36mminicritsOnFire\033[0m");
 		minicritsAirblast = new Stat("Mini-crits targets launched airborne by airblast", 40, true);														stats.add(minicritsAirblast);		minicritsAirblast.setNombre("\033[36mminicritsAirblast\033[0m");
@@ -467,7 +489,7 @@ public class Weapon {
 		pipeSelfDamage = new Stat(25, 5, "-", "% damage to self", 25, "+", "% damage to self", 25);				stats.add(pipeSelfDamage);		pipeSelfDamage.setNombre("\033[33mpipeSelfDamage\033[0m");
 		fuseTime = new Stat(30, 5, "-", "% fuse time on grenades", 20, "+", "% fuse time on grenades", 20);		stats.add(fuseTime);			fuseTime.setNombre("\033[33mfuseTime\033[0m");
 		bombsRollLess = new Stat("Grenades have very little bounce and roll", 15, true);						stats.add(bombsRollLess);		bombsRollLess.setNombre("\033[36mbombsRollLess\033[0m");
-		bombsShatter = new Stat("Launched bombs shatter on surfaces", 20, false);								stats.add(bombsShatter);		fuseTime.setNombre("\033[91mbombsShatter\033[0m");
+		bombsShatter = new Stat("Launched bombs shatter on surfaces", 20, false);								stats.add(bombsShatter);		bombsShatter.setNombre("\033[91mbombsShatter\033[0m");
 	}
 	
 	private void relacionadasGrenadeLauncher() {
@@ -488,10 +510,52 @@ public class Weapon {
 	 * 											   HEAVY											 *
 	**************************************************************************************************/
 	private void setTipoMinigun() {
+		dmgReswhileSpun = new Stat(20, 5, "+","% damage resistance when below 50% health and spun up", 20, true);						stats.add(dmgReswhileSpun);		dmgReswhileSpun.setNombre("\033[36mdmgReswhileSpun\033[0m");
+		spinUpTime = new Stat(20, 5, "", "% slower spin up time", 35, "", "% slower spin up time", 50);									stats.add(spinUpTime);			spinUpTime.setNombre("\033[33mspinUpTime\033[0m");
+		spinDownTime = new Stat(30, 5, "", "% faster spin down time", 15, "", "% slower spin down time", 50);							stats.add(spinDownTime);		spinDownTime.setNombre("\033[33mspinDownTime\033[0m");
+		moveSpeedSpun = new Stat(20, 5, "+", "% faster move speed while spun up", 25, "-", "% slower move speed while spun up", 60);	stats.add(moveSpeedSpun);		moveSpeedSpun.setNombre("\033[33mmoveSpeedSpun\033[0m");
+		silentSpun = new Stat("Silent Killer: Silent spin sound", "Screaming Killer: Louder spin sound", 20);							stats.add(silentSpun);			silentSpun.setNombre("\033[36msilentSpun\033[0m");
+	}
+	
+	private void setTipoShotgunHeavy() {
+		shotgunKnockback = new Stat(30, 5, "+", "% knockback force", 20, true);																				stats.add(shotgunKnockback);	shotgunKnockback.setNombre("\033[36mshotgunKnockback\033[0m");
+		dmgIfRecentSpun = new Stat(20, 5, "+", "% damage if minigun has recently been spun", 20, "-", "% damage if minigun has recently been spun", 20);	stats.add(dmgIfRecentSpun);		dmgIfRecentSpun.setNombre("\033[33mdmgIfRecentSpun\033[0m");
+		knockbackResActive = new Stat(20, 5, "+", "% knockback resistance while active", 20, true);															stats.add(knockbackResActive);	knockbackResActive.setNombre("\033[36mknockbackResActive\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 											 ENGINEER											 *
+	**************************************************************************************************/
+	private void setTipoShotgunEngineer() {
+		shotgunDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 30, "", "% decreased damage to your sentry's target", 25);
+		revengeCrits = new Stat("Gain 2 revenge crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 40, true);
+		revengeMinicrits = new Stat("Gain 2 revenge mini-crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 15, true);
+		shotgunMetalOnHit = new Stat(60, 5, "On Hit: Gain up to +", " metal per attack", 40, true);
+		shotgunMetalLossShooting = new Stat(40, 5, "Per Shot: Lose up to -", " metal per attack", 35, false);
+		shotgunSentryVuln = new Stat(30, 5, "+", "% damage resistance for your Sentry Gun while active", 35, "-", "% damage vulnerabilty for your Sentry Gun while active", 30);
+	}
+	
+	private void setTipoPistolEngineer() {
+		pistolDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 20, "", "% decreased damage to your sentry's target", 25);
+		iconOverTarget = new Stat("Displays an icon over the current target of your Sentry Gun", 15, true);
+		pistolMetalOnHit = new Stat(10, 1, "On Hit: Gain up to +", " metal per attack", 20, true);
+		pistolMetalLossShooting = new Stat(5, 1, "Per Shot: Lose up to -", " metal per attack", 25, false);
+		pistolSentryVuln = new Stat(25, 5, "+", "% damage resistance for your Sentry Gun while active", 30, "-", "% damage vulnerabilty for your Sentry Gun while active", 25);
+	}
+	/**************************************************************************************************
+	 * 											 ENGINEER											 *
+	**************************************************************************************************/
+	private void setTipoSyringeGun() {
+		
+	}
+	
+	private void setTipoMedigun() {
 		
 	}
 	
 	public void generarArma() {
+		
+		int i;
 		
 		// Ordenar la lista de stats y obtener cantidad de positivos y negativos
 		Collections.sort(stats);
@@ -509,14 +573,22 @@ public class Weapon {
 		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
 		
 		// Generar los stats positivos
-		for(int i = 0; i < 3; i++) {
+		for(i = 0; i < maxStatsPositivos; i++) {
 			getStatPositivo();
 		}
 		
-		// Generar los stats positivos
-		for(int i = 0; i < 3; i++) {
+		// Generar los stats negativos
+		i = 0;
+		while(i < maxStatsNegativos && puntuacionNegativa < (puntuacionPositiva - lim)) {
 			getStatNegativo();
+			i++;
 		}
+		
+		System.out.print("\n "+puntuacionPositiva+" - "+puntuacionNegativa+" = "+(puntuacionPositiva - puntuacionNegativa)+" < "+((lim+5)/2));
+		if(puntuacionPositiva - puntuacionNegativa < (lim+5)/2 && !negativos.isEmpty()) {
+			negativos.remove(negativos.size()-1);
+		}
+		
 		
 		System.out.print("\n ");
 		for(Stat s: stats) {
@@ -530,6 +602,9 @@ public class Weapon {
 		for(Stat s : negativos) {
 			System.out.print("\n \033[91m" + s.getTexto() + "\033[0m");
 		}
+		
+		System.out.print("\n\n PUNTUACIÓN POSITIVA: "+ puntuacionPositiva);
+		System.out.print("\n PUNTUACIÓN NEGATIVA: "+ puntuacionNegativa);
 	}
 	
 	
@@ -545,6 +620,7 @@ public class Weapon {
 		statAux.setPositivo();
 		System.out.print("\n\n   "+statAux.getTexto()+"\n");
 		positivos.add(statAux);
+		puntuacionPositiva += statAux.getPuntaje();
 		eliminarStats(statAux);
 		/*
 		for(Stat s: stats) {
@@ -563,10 +639,10 @@ public class Weapon {
 		Random rand = new Random();
 		int r = rand.nextInt(statsNegativosDisponibles);
 		Stat statAux = stats.get(r+stats.size()-statsNegativosDisponibles);
-		//Stat statAux = stats.get(stats.indexOf(maxPrimaryAmmo));
 		statAux.setNegativo();
 		System.out.print("\n\n   "+statAux.getTexto()+"\n");
 		negativos.add(statAux);
+		puntuacionNegativa += statAux.getPuntaje();
 		eliminarStats(statAux);
 		/*
 		for(Stat s: stats) {
@@ -598,5 +674,25 @@ public class Weapon {
 		System.out.print("\n Eliminado: "+ s.getNombre());
 		System.out.print("\n ");
 		stats.remove(stats.indexOf(s));
+	}
+	
+	public void setPoder(int p) {
+		switch(p) {
+		case 1:
+			lim = -45;
+			break;
+		case 2:
+			lim = -25;
+			break;
+		case 3:
+			lim = 10;
+			break;
+		case 4:
+			lim = 30;
+			break;
+		case 5:
+			lim = 45;
+			break;
+		}
 	}
 }
