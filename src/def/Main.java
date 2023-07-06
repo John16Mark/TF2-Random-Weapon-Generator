@@ -1,13 +1,23 @@
 package def;
+
+import java.awt.EventQueue;
+
 public class Main {
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//Ventana Generator = new Ventana();
-		Weapon w = new Weapon("Heavy", "Minigun");
-		w.generarArma();
-		w.setPoder(4);
-		Ventana v = new Ventana();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Window frame = new Window();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

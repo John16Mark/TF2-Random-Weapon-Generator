@@ -13,6 +13,9 @@ public class Weapon {
 	
 	private int clipsize;
 	private boolean isPrimary = false;
+	private boolean isWeapon = true;
+	private boolean isMelee = false;
+	private boolean isSword = false;
 	
 	// Lista de stats posibles
 	private ArrayList<Stat> stats = new ArrayList<>();
@@ -22,69 +25,261 @@ public class Weapon {
 	private int statsNegativosDisponibles = 0;
 	
 	// Listas de stats seleccionados
+	private ArrayList<Stat> neutralesAntes = new ArrayList<>();
 	private ArrayList<Stat> positivos = new ArrayList<>();
+	private ArrayList<Stat> neutralesMedio = new ArrayList<>();
 	private ArrayList<Stat> negativos = new ArrayList<>();
-	private ArrayList<Stat> neutrales = new ArrayList<>();
+	private ArrayList<Stat> neutralesDespues = new ArrayList<>();
 	
 	// Límites de los stats
-	private int maxStatsPositivos = 3;
+	private int maxStatsPositivos = 0;
 	private int maxStatsNegativos = 3;
 	private int lim = 25;
+	private float maxPuntuacionPositivos = 0;
+	private float minPuntuacionPositivos = 0;
+	private int maxPuntuacionNegativos = 10;
 	
 	// Puntajes
 	private float puntuacionPositiva = 0;
 	private float puntuacionNegativa = 0;
-	private float puntuacionBanner = 0;
+	//private float puntuacionBanner = 0;
 	
 	private int primaryAmmo;
 	private int secondaryAmmo;
 	
-	/* GENERIC */			Stat maxPrimaryAmmo, maxSecondaryAmmo;
-	/* PASSIVE */			Stat maxHp, passiveFireResistance, passiveExpResistance, passiveBulletResistance, passiveHpRegen, passiveSpeed, passiveKb, passiveFallDmg, passiveNoFall;
+	/* GENERIC */
+	Stat maxPrimaryAmmo;
+	Stat maxSecondaryAmmo;
+	Stat maxHp;
+	Stat passiveDmgResistance;
+	Stat passiveFireResistance;
+	Stat passiveExpResistance;
+	Stat passiveBulletResistance;
+	Stat passiveMeleeResistance;
+	/* PASSIVE */
+	Stat passiveHpRegen;
+	Stat passiveSpeed;
+	Stat passiveJumpHeight;
+	Stat passiveKnockbackRes;
+	Stat passiveFallDmg;
+	Stat passiveNoFall;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* ARMA ataque */		Stat damage, damagePlayers, damageBuildings, clipSize, firingSpeed, hpOnHit;
-	/* ARMA velocidad */	Stat deploySpeed, holsterSpeed, reloadSpeed;
-	/* ARMA utilidad */		Stat speedActive, jumpActive;
-	/* ARMA extra */		Stat noAmmoNeed, noAmmoDispensers;
-	/* ARMA buffs */		Stat minicritsExplosion, minicritsWhenCrit, noRandomCrits;
-	
-	/* BULLETS */			Stat accuracy, minicritsFromBack;
-	/* SHOTGUN */			Stat morePellets, fixedPattern;
-	/* PROJECTILE */		Stat projectileSpeed, projectileSpread;
-	/* EXPLOSION */			Stat explosionRadius, destroysStickies, fireExplosion;
+	/* ARMA ataque */
+	Stat damage;
+	Stat damagePlayers;
+	Stat damageBuildings;
+	Stat clipSize;
+	Stat firingSpeed;
+	Stat hpOnHit;
+	/* ARMA velocidad */
+	Stat deploySpeed;
+	Stat holsterSpeed;
+	Stat reloadSpeed;
+	/* ARMA utilidad */
+	Stat speedActive;
+	Stat jumpActive;
+	/* ARMA extra */
+	Stat noAmmoNeed;
+	Stat noAmmoDispensers;
+	/* ARMA buffs */
+	Stat minicritsExplosion;
+	Stat minicritsWhenCrit;
+	Stat noRandomCrits;
+	Stat dmgResitanceWhileActive;
+	Stat fireResitanceWhileActive;
+	Stat expResitanceWhileActive;
+	Stat bulletResitanceWhileActive;
+	Stat meleeResitanceWhileActive;
+	Stat healFromMedic;
+	Stat healFromKits;
+	//////////////////////////////////////
+	/* BULLETS */
+	Stat accuracy;
+	Stat minicritsFromBack;
+	Stat mediumRangeBulletsPass;
+	/* SHOTGUN */
+	Stat morePellets;
+	Stat fixedPattern;
+	/* PROJECTILE */
+	Stat projectileSpeed;
+	Stat projectileSpread;
+	Stat reflectedTurnsCrit;
+	Stat cannotReflect;
+	/* EXPLOSION */
+	Stat explosionRadius;
+	Stat destroysStickies;
+	Stat fireExplosion;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Rocket Launcher */	Stat rocketSelfDamage, RocketDamageWhileRJ, firingSpeedWhileRJ, projectileSpeedWhileRJ, radiusWhileRJ;
-	/* Shotgun */			Stat explosiveBullets, ShotgunDmgWhileRJ;
+	/* Scattergun */
+	Stat reloadOnKill;
+	Stat ifAllConnectDebuff;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/* Rocket Launcher */
+	Stat rocketSelfDamage;
+	Stat RocketDamageWhileRJ;
+	Stat firingSpeedWhileRJ;
+	Stat projectileSpeedWhileRJ;
+	Stat radiusWhileRJ;
+	/* Shotgun */
+	Stat explosiveBullets;
+	Stat ShotgunDmgWhileRJ;
 	/* Boots */
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Flame Thrower */		Stat flameRange, afterburnDmg, airblastCost, airblastPush, airblastSpeed, noAirblast, flameSpeed;
-	/* Shotgun */			Stat fireBullets, minicritsOnFire, minicritsAirblast, damageWhileExpJump;
+	/* Flame Thrower */
+	Stat flameRange;
+	Stat afterburnDmg;
+	Stat airblastCost;
+	Stat airblastPush;
+	Stat airblastSpeed;
+	Stat noAirblast;
+	Stat flameSpeed;
+	/* Shotgun */
+	Stat fireBullets;
+	Stat minicritsOnFire;
+	Stat minicritsAirblast;
+	Stat damageWhileExpJump;
 	/* Flare Gun */
 	/* Fireaxe */
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Grenade Launcher */		Stat pipeSelfDamage, fuseTime, bombsRollLess, bombsShatter;
-	/* Stickybomb Launcher */	Stat stickySelfDamage, moreStickies, stickyArmTime, stickyChargTime, StickyDmgCharge;
+	/* Grenade Launcher */
+	Stat pipeSelfDamage;
+	Stat fuseTime;
+	Stat bombsRollLess;
+	Stat bombsShatter;
+	/* Stickybomb Launcher */
+	Stat stickySelfDamage;
+	Stat moreStickies;
+	Stat stickyArmTime;
+	Stat stickyChargTime;
+	Stat StickyDmgCharge;
+	/* Shield */
+	Stat chargeImpactDmg;
+	Stat chargeRechargeRate;
+	Stat fullTurnControlCharge;
+	Stat meleeKillsRefillcharge;
 	/* Sword */
+	Stat chargeDuration;
+	Stat killsFillCharge;
+	Stat killsHealHP;
+	Stat honorbound;
+	Stat ammoRefillsCharge;
+	Stat medkitsRefillCharge;
+	Stat hitsRefillCharge;
 	/* Bottle */
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Minigun */			Stat dmgReswhileSpun, spinUpTime, spinDownTime, moveSpeedSpun, silentSpun;
-	/* Shotgun */			Stat shotgunKnockback, dmgIfRecentSpun, knockbackResActive;
+	/* Minigun */
+	Stat dmgReswhileSpun;
+	Stat spinUpTime;
+	Stat spinDownTime;
+	Stat moveSpeedSpun;
+	Stat silentSpun;
+	/* Shotgun */
+	Stat shotgunKnockback;
+	Stat dmgIfRecentSpun;
+	Stat knockbackResActive;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Shotgun */			Stat shotgunDmgToSentryTarget, revengeCrits, revengeMinicrits, shotgunMetalOnHit, shotgunMetalLossShooting, shotgunSentryVuln;
-	/* Pistol */			Stat pistolDmgToSentryTarget, iconOverTarget, pistolMetalOnHit, pistolMetalLossShooting, pistolSentryVuln;
+	/* Shotgun */
+	Stat shotgunDmgToSentryTarget;
+	Stat revengeCrits;
+	Stat revengeMinicrits;
+	Stat shotgunMetalOnHit;
+	Stat shotgunMetalLossShooting;
+	Stat shotgunSentryVuln;
+	/* Pistol */
+	Stat pistolDmgToSentryTarget;
+	Stat iconOverTarget;
+	Stat pistolMetalOnHit;
+	Stat pistolMetalLossShooting;
+	Stat pistolSentryVuln;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/* Syringe Gun */		Stat passiveHealing, syringeUberOnHit, syringeHealOnHit, speedBasedUber, dmgBasedUber, fireSpdBasedUber;
-	/* Medigun */			Stat healRate, uberRate, overhealRate, overhealMax, mimicsRJ, buffsOnClass, healBuildings, drainsHealth;
+	/* Syringe Gun */
+	Stat passiveHealing;
+	Stat syringeUberOnHit;
+	Stat syringeHealOnHit;
+	Stat speedBasedUber;
+	Stat dmgBasedUber;
+	Stat fireSpdBasedUber;
+	/* Medigun */
+	Stat healRate;
+	Stat uberRate;
+	Stat overhealRate;
+	Stat overhealMax;
+	Stat mimicsRJ;
+	Stat buffsOnClass;
+	Stat healBuildings;
+	Stat drainsHealth;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/* Sniper Rifle */
+	Stat chargeRate;
+	Stat chargeOnKills;
+	Stat hsMinicrit;
+	Stat hsonlyFull;
+	Stat hsonlyFull2;
+	Stat noNoscope;
+	Stat lessDmgMulti;
+	Stat debuffOnCharge;
+	Stat dmgOnBodyS;
 	/* SMG */
+	Stat smgDmgPierce;
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/* Revolver */
+	Stat canHeadshot;
+	Stat cloakHit;
+	Stat cloakDuration;
+	Stat revolverDmgPierce;
+	Stat dmgWhileDisg;
+	Stat dmgNoDisg;
+	Stat critsStabSap;
+	Stat critsStab;
+	Stat critsSap;
+	Stat minicritsStabSap;
+	Stat minicritsStab;
+	Stat minicritsSap;
+	Stat critsFallOff;
+	Stat debuffHeadshot;
+	Stat dmgOnSappedBuildings;
 	/* Sapper */
+	Stat sapperHP;
+	Stat sapperDmg;
+	Stat sapperExplodes;
+	Stat doesntDeactBuild;
+	Stat drainsAmmoBuild;
+	Stat drainsBuildRate;
+	Stat vulnOnSappedBuilds;
+	Stat sapperAppliedBuff;
+	Stat SapperDestroyedBuff;
+	Stat sapperCompletedBuff;
 	/* Knife */
 	/* Invis Watch */
 	
-	public Weapon(String c, String t) {
+	public Weapon(String c, String t, int pos, int neg, int pow) {
+		
+		maxStatsPositivos = pos;
+		maxStatsNegativos = neg;
+		
+		switch(pow) {
+		case 0:
+			minPuntuacionPositivos = 0;
+			maxPuntuacionPositivos = 23;
+			break;
+		case 1:
+			minPuntuacionPositivos = 15;
+			maxPuntuacionPositivos = 35;
+			break;
+		case 2:
+			minPuntuacionPositivos = 25;
+			maxPuntuacionPositivos = 45;
+			break;
+		case 3:
+			minPuntuacionPositivos = 37;
+			maxPuntuacionPositivos = 70;
+			break;
+		case 4:
+			minPuntuacionPositivos = 46;
+			maxPuntuacionPositivos = 140;
+			break;
+		}
+		
 		
 		switch(c) {
 		case "Scout":
@@ -141,10 +336,11 @@ public class Weapon {
 		{
 			case "Scattergun":
 				clipsize = 6;
+				isPrimary = true;
 				setTipoArma();
 				setTipoBalas();
 				setTipoEscopeta();
-				isPrimary = true;
+				setTipoScattergun();
 				
 				relacionadasArma();
 				relacionadasBalas();
@@ -152,9 +348,9 @@ public class Weapon {
 				break;
 				
 			case "Pistol":
+				clipsize = 12;
 				setTipoArma();
 				setTipoBalas();
-				clipsize = 12;
 				
 				if(clase == 1){
 					//setTipoPistolScout();
@@ -174,17 +370,22 @@ public class Weapon {
 				*/
 			case "Rocket Launcher":
 				clipsize = 4;
+				isPrimary = true;
 				setTipoArma();
 				setTipoProyectil();
 				setTipoExplosion();
 				setTipoRocketLauncher();
-				isPrimary = true;
+				
 				
 				relacionadasArma();
+				relacionadasProyectil();
 				break;
 				
 			case "Shotgun":
 				clipsize = 6;
+				if(clase == 6) {
+					isPrimary = true;
+				}
 				setTipoArma();
 				setTipoBalas();
 				setTipoEscopeta();
@@ -207,15 +408,16 @@ public class Weapon {
 				relacionadasBalas();
 				relacionadasEscopeta();
 				break;
-				/*
-			case "banner":
-				SetType_Passive();
-				DeleteStatPositive("maxsecondaryammo");
-				DeleteStatNegative("maxsecondaryammo");
-				Set_BannerBuffs();
-				IsWeapon = false;
-				break;
 				
+			case "Banner":
+				isWeapon = false;
+				setTipoPasivo();
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
+				//Set_BannerBuffs();
+				
+				relacionadasPasivo();
+				break;
+				/*
 			case "shovel":
 				setTipoArma();
 				SetType_Melee();
@@ -225,13 +427,13 @@ public class Weapon {
 				*/
 				
 			case "Flame Thrower":
+				isPrimary = true;
 				setTipoArma();
 				setTipoFlameThrower();
 				stats.remove(stats.indexOf(firingSpeed));
 				stats.remove(stats.indexOf(clipSize));
 				stats.remove(stats.indexOf(reloadSpeed));
 				stats.remove(stats.indexOf(hpOnHit));
-				isPrimary = true;
 				
 				relacionadasArma();
 				relacionadasFlameThrower();
@@ -246,52 +448,64 @@ public class Weapon {
 				*/
 			case "Grenade Launcher":
 				clipsize = 4;
+				isPrimary = true;
 				setTipoArma();
 				setTipoProyectil();
 				setTipoExplosion();
 				setTipoGrenadeLauncher();
-				isPrimary = true;
 				
 				relacionadasArma();
+				relacionadasProyectil();
 				relacionadasGrenadeLauncher();
 				break;
 				
 			case "Stickybomb Launcher":
 				clipsize = 8;
+				isPrimary = true;
 				setTipoArma();
 				setTipoProyectil();
 				setTipoExplosion();
 				setTipoStickybombLauncher();
 				
 				relacionadasArma();
-				break;
-				/*
-			case "bottle":
-				setTipoArma();
-				SetType_Melee();
-				
-				relacionadasArma();
+				relacionadasProyectil();
 				break;
 				
-			case "sword":
+			case "Shield":
+				isWeapon = false;
+				setTipoPasivo();
+				setTipoShield();
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
+				//Set_BannerBuffs();
+				
+				relacionadasPasivo();
+				break;
+				
+			case "Bottle":
+				isMelee = true;
 				setTipoArma();
-				stats.remove(stats.indexOf(clipSize));
-				stats.remove(stats.indexOf(reloadSpeed));
-				DeleteStatPositive("deploy");
-				DeleteStatNegative("deploy");
-				DeleteStatPositive("holster");
-				DeleteStatNegative("holster");
 				stats.remove(stats.indexOf(hpOnHit));
-				DeleteStatPositive("noammoneed");
-				DeleteStatNegative("randomcrits");
-				SetType_Melee();
-				SetType_Sword();
-				IsMelee = true;
+				setTipoMelee();
 				
 				relacionadasArma();
 				break;
-				*/
+				
+			case "Sword":
+				isMelee = true;
+				isSword = true;
+				setTipoArma();
+				stats.remove(stats.indexOf(hpOnHit));
+				setTipoMelee();
+				setTipoSword();
+				stats.remove(stats.indexOf(deploySpeed));
+				stats.remove(stats.indexOf(holsterSpeed));
+				stats.remove(stats.indexOf(noRandomCrits));
+				
+				relacionadasArma();
+				break;
+				
 			case "Minigun":
+				isPrimary = true;
 				setTipoArma();
 				setTipoBalas();
 				stats.remove(stats.indexOf(clipSize));
@@ -300,6 +514,7 @@ public class Weapon {
 				setTipoMinigun();
 				
 				relacionadasArma();
+				relacionadasBalas();
 				break;
 				/*
 			case "fists":
@@ -308,27 +523,44 @@ public class Weapon {
 				
 				relacionadasArma();
 				break;
-				
-			case "syringe gun":
+				*/
+			case "Syringe Gun":
+				clipsize = 8;
+				isPrimary = true;
 				setTipoArma();
-				SetClipSize(40);
-				SetType_SyringeGun();
-				IsPrimary = true;
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
 				
 				relacionadasArma();
 				break;
 				
-			case "medigun":
-				SetType_Medigun();
+			case "Medigun":
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
+				setTipoMedigun();
 				break;
-				
+				/*
 			case "bonesaw":
 				setTipoArma();
 				SetType_Melee();
 				
 				relacionadasArma();
 				break;
+			*/
+			case "Sniper Rifle":
+				isPrimary = true;
+				setTipoArma();
+				setTipoBalas();
+				setSniperRifle();
+				stats.remove(stats.indexOf(clipSize));
+				stats.remove(stats.indexOf(mediumRangeBulletsPass));
+				stats.remove(stats.indexOf(reloadSpeed));
+				stats.remove(stats.indexOf(accuracy));
+				stats.remove(stats.indexOf(minicritsWhenCrit));
 				
+				relacionadasArma();
+				relacionadasBalas();
+				relacionadasSniperRifle();
+				break;
+			/*
 			case "smg":
 				setTipoArma();
 				setTipoBalas();
@@ -344,16 +576,22 @@ public class Weapon {
 				
 				relacionadasArma();
 				break;
-				
-			case "revolver":
+				*/
+			case "Revolver":
+				clipsize = 6;
+				isPrimary = true;
 				setTipoArma();
 				setTipoBalas();
-				SetClipSize(6);
-				SetType_Revolver();
-				IsPrimary = true;
+				setTipoRevolver();
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
 				
 				relacionadasArma();
-				break;*/
+				relacionadasRevolver();
+				break;
+				
+			case "Sapper":
+				setTipoSapper();
+				stats.remove(stats.indexOf(maxSecondaryAmmo));
 		}
 		relacionadasGenerico();
 	}
@@ -361,6 +599,13 @@ public class Weapon {
 	private void setTipoGenerico() {
 		maxPrimaryAmmo = new Stat("+", "% max primary ammo on wearer", 20, "-", "% max primary ammo on wearer", primaryAmmo);			stats.add(maxPrimaryAmmo);		maxPrimaryAmmo.setNombre("\033[33mmaxPrimaryAmmo\033[0m");
 		maxSecondaryAmmo = new Stat("+", "% max secondary ammo on wearer", 20, "-", "% max secondary ammo on wearer", secondaryAmmo);	stats.add(maxSecondaryAmmo);	maxSecondaryAmmo.setNombre("\033[33mmaxSecondaryAmmo\033[0m");
+		
+		maxHp = new Stat(40, 5, "-", " max health on wearer", 80, false);											stats.add(maxHp);					maxHp.setNombre("\033[91mmaxHp\033[0m");
+		passiveDmgResistance = new Stat(30, 5, "-", "% damage vulnerability on wearer", 45, false);					stats.add(passiveDmgResistance);	passiveDmgResistance.setNombre("\033[91mpassiveDmgResistance\033[0m");
+		passiveFireResistance = new Stat(50, 5, "-", "% fire damage vulnerability on wearer", 30, false);			stats.add(passiveFireResistance);	passiveFireResistance.setNombre("\033[91mpassiveFireResistance\033[0m");
+		passiveExpResistance = new Stat(40, 5, "-", "% explosive damage vulnerability on wearer", 35, false);		stats.add(passiveExpResistance);	passiveExpResistance.setNombre("\033[91mpassiveExpResistance\033[0m");
+		passiveBulletResistance = new Stat(30, 5, "-", "% bullet damage vulnerability on wearer", 40, false);		stats.add(passiveBulletResistance);	passiveBulletResistance.setNombre("\033[91mpassiveBulletResistance\033[0m");
+		passiveMeleeResistance = new Stat(20, 5, "-", "% melee damage vulnerability on wearer", 25, false);			stats.add(passiveMeleeResistance);	passiveMeleeResistance.setNombre("\033[91mpassiveMeleeResistance\033[0m");
 	}
 	
 	private void relacionadasGenerico() {
@@ -369,6 +614,49 @@ public class Weapon {
 		} else {
 			maxSecondaryAmmo.setLista(Arrays.asList(noAmmoNeed));
 		}
+	}
+	
+	private void setTipoPasivo() {
+		stats.remove(stats.indexOf(maxHp));
+		stats.remove(stats.indexOf(passiveDmgResistance));
+		stats.remove(stats.indexOf(passiveFireResistance));
+		stats.remove(stats.indexOf(passiveExpResistance));
+		stats.remove(stats.indexOf(passiveBulletResistance));
+		stats.remove(stats.indexOf(passiveMeleeResistance));
+		maxHp = new Stat(40, 5, "+", " max health on wearer", 80, "-", " max health on wearer", 40);														stats.add(maxHp);					maxHp.setNombre("\033[33mmaxHp\033[0m");
+		passiveDmgResistance = new Stat(30, 5, "+", "% damage resistance on wearer", 45, "-", "% damage vulnerability on wearer", 30);						stats.add(passiveDmgResistance);	passiveDmgResistance.setNombre("\033[33mpassiveDmgResistance\033[0m");
+		passiveFireResistance = new Stat(50, 5, "+", "% fire damage resistance on wearer", 30, "-", "% fire damage vulnerability on wearer", 50);			stats.add(passiveFireResistance);	passiveFireResistance.setNombre("\033[33mpassiveFireResistance\033[0m");
+		passiveExpResistance = new Stat(40, 5, "+", "% explosive damage resistance on wearer", 35, "-", "% explosive damage vulnerability on wearer", 40);	stats.add(passiveExpResistance);	passiveExpResistance.setNombre("\033[33mpassiveExpResistance\033[0m");
+		passiveBulletResistance = new Stat(30, 5, "+", "% bullet damage resistance on wearer", 40, "-", "% bullet damage vulnerability on wearer", 30);		stats.add(passiveBulletResistance);	passiveBulletResistance.setNombre("\033[33mpassiveBulletResistance\033[0m");
+		passiveMeleeResistance = new Stat(20, 5, "+", "% melee damage resistance on wearer", 25, "-", "% melee damage vulnerability on wearer", 20);		stats.add(passiveMeleeResistance);	passiveMeleeResistance.setNombre("\033[33mpassiveMeleeResistance\033[0m");
+		passiveHpRegen = new Stat(5, 1, "+", " health regenerated per second on wearer", 35, true);															stats.add(passiveHpRegen);			passiveHpRegen.setNombre("\033[36mpassiveHpRegen\033[0m");
+		passiveSpeed = new Stat(20, 5, "+", "% faster move speed on wearer", 40, "-", "% slower move speed on wearer", 20);									stats.add(passiveSpeed);			passiveSpeed.setNombre("\033[33mpassiveSpeed\033[0m");
+		passiveJumpHeight = new Stat(25, 5, "+", "% greater jump height on wearer",20, true);																stats.add(passiveJumpHeight);		passiveJumpHeight.setNombre("\033[36mpassiveJumpHeight\033[0m");
+		passiveKnockbackRes = new Stat(75, 5, "-", "% reduction in push force taken from damage", 50, true);												stats.add(passiveKnockbackRes);		passiveKnockbackRes.setNombre("\033[36mpassiveKnockbackRes\033[0m");
+		passiveFallDmg = new Stat(75, 5, "-", "% fall damage taken", 25, true);																				stats.add(passiveFallDmg);			passiveFallDmg.setNombre("\033[36mpassiveFallDmg\033[0m");
+		passiveNoFall = new Stat("wearer takes no fall damage", 25, true);																					stats.add(passiveNoFall);			passiveNoFall.setNombre("\033[36mpassiveNoFall\033[0m");
+		healFromMedic = new Stat(100, 5, "+", "% health from packs on wearer", 40, "-", "% health from packs on wearer", 75);								stats.add(healFromMedic);			healFromMedic.setNombre("\033[33mhealFromMedic\033[0m");
+		healFromKits = new Stat(50, 5, "+", "% health from healers on wearer", 45, "-", "% health from healers on wearer", 75);							stats.add(healFromKits);			healFromKits.setNombre("\033[33mhealFromKits\033[0m");
+	}
+	
+	private void relacionadasPasivo() {
+		/*
+		dmgResitanceWhileActive.setLista(Arrays.asList(fireResitanceWhileActive, expResitanceWhileActive, bulletResitanceWhileActive, meleeResitanceWhileActive));
+		fireResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive));
+		expResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive));
+		bulletResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive));
+		meleeResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive));
+		*/
+		passiveDmgResistance.setLista(Arrays.asList(
+				passiveFireResistance, passiveExpResistance, passiveBulletResistance, passiveMeleeResistance,
+				dmgResitanceWhileActive, fireResitanceWhileActive, expResitanceWhileActive, bulletResitanceWhileActive, meleeResitanceWhileActive));
+		passiveFireResistance.setLista(Arrays.asList(passiveDmgResistance, dmgResitanceWhileActive, fireResitanceWhileActive));
+		passiveExpResistance.setLista(Arrays.asList(passiveDmgResistance, dmgResitanceWhileActive, expResitanceWhileActive));
+		passiveBulletResistance.setLista(Arrays.asList(passiveDmgResistance, dmgResitanceWhileActive, bulletResitanceWhileActive));
+		passiveMeleeResistance.setLista(Arrays.asList(passiveDmgResistance, dmgResitanceWhileActive, meleeResitanceWhileActive));
+		passiveFallDmg.setLista(Arrays.asList(passiveNoFall));
+		passiveNoFall.setLista(Arrays.asList(passiveFallDmg));
+		
 	}
 	
 	private void setTipoArma() {
@@ -395,6 +683,13 @@ public class Weapon {
 		minicritsExplosion = new Stat("Mini-crits targets launched airborne by explosions, grapple hooks or rocket packs", 10, true);	stats.add(minicritsExplosion);	minicritsExplosion.setNombre("\033[36mminicritsExplosion\033[0m");
 		minicritsWhenCrit = new Stat("Minicrits whenever it would normally crit", 20, false);											stats.add(minicritsWhenCrit);	minicritsWhenCrit.setNombre("\033[91mminicritsWhenCrit\033[0m");
 		noRandomCrits = new Stat("No random critical hits", 5, false);																	stats.add(noRandomCrits);		noRandomCrits.setNombre("\033[91mnoRandomCrits\033[0m");
+		dmgResitanceWhileActive = new Stat(35, 5, "+", "% damage resistance while active", 50, "-", "% damage vulnerability while active", 35);						stats.add(dmgResitanceWhileActive);			dmgResitanceWhileActive.setNombre("\033[33mdmgResitanceWhileActive\033[0m");
+		fireResitanceWhileActive = new Stat(35, 5, "+", "% fire damage resistance while active", 20, "-", "% fire damage vulnerability while active", 35);			stats.add(fireResitanceWhileActive);		fireResitanceWhileActive.setNombre("\033[33mfireResitanceWhileActive\033[0m");
+		expResitanceWhileActive = new Stat(35, 5, "+", "% explosive damage resistance while active", 25, "-", "% explosive damage vulnerability while active", 35);	stats.add(expResitanceWhileActive);			expResitanceWhileActive.setNombre("\033[33mexpResitanceWhileActive\033[0m");
+		bulletResitanceWhileActive = new Stat(35, 5, "+", "% bullet damage resistance while active", 30, "-", "% bullet damage vulnerability while active", 35);	stats.add(bulletResitanceWhileActive);		bulletResitanceWhileActive.setNombre("\033[33mbulletResitanceWhileActive\033[0m");
+		meleeResitanceWhileActive = new Stat(35, 5, "+", "% melee damage resistance while active", 15, "-", "% melee damage vulnerability while active", 35);		stats.add(meleeResitanceWhileActive);		meleeResitanceWhileActive.setNombre("\033[33mmeleeResitanceWhileActive\033[0m");
+		healFromMedic = new Stat(75, 5, "+", "% health from packs on wearer", 35, "-", "% health from packs on wearer", 50);			stats.add(healFromMedic);		healFromMedic.setNombre("\033[33mhealFromMedic\033[0m");
+		healFromKits = new Stat(100, 5, "+", "% health from healers on wearer", 40, "-", "% health from healers on wearer", 75);		stats.add(healFromKits);		healFromKits.setNombre("\033[33mhealFromKits\033[0m");
 	}
 	
 	private void relacionadasArma() {
@@ -407,11 +702,26 @@ public class Weapon {
 			noAmmoNeed.setLista(Arrays.asList(maxSecondaryAmmo, noAmmoDispensers, airblastCost));
 		}
 		noAmmoDispensers.setLista(Arrays.asList(noAmmoNeed));
+		dmgResitanceWhileActive.setLista(Arrays.asList(
+				fireResitanceWhileActive, expResitanceWhileActive, bulletResitanceWhileActive, meleeResitanceWhileActive,
+				passiveDmgResistance, passiveFireResistance, passiveExpResistance, passiveBulletResistance, passiveMeleeResistance));
+		fireResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive, passiveDmgResistance, passiveFireResistance));
+		expResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive, passiveDmgResistance, passiveExpResistance));
+		bulletResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive, passiveDmgResistance, passiveBulletResistance));
+		meleeResitanceWhileActive.setLista(Arrays.asList(dmgResitanceWhileActive, passiveDmgResistance, passiveMeleeResistance));
+	}
+	
+	private void setTipoMelee() {
+		stats.remove(stats.indexOf(clipSize));
+		stats.remove(stats.indexOf(reloadSpeed));
+		stats.remove(stats.indexOf(noAmmoNeed));
+		hpOnHit = new Stat(25, 5, "On Hit: Gain +", " health per attack", 35, true);				stats.add(hpOnHit);				hpOnHit.setNombre("\033[36mhpOnHit\033[0m");
 	}
 	
 	private void setTipoBalas() {
-		accuracy = new Stat(25, 5, "+", "% more accurate", 35, "-", "% less accurate", 20);							stats.add(accuracy);			accuracy.setNombre("\033[33maccuracy\033[0m");
-		minicritsFromBack = new Stat("Mini-crits targets when fired at their back from close range", 20, true);		stats.add(minicritsFromBack);	minicritsFromBack.setNombre("\033[36mminicritsFromBack\033[0m");
+		accuracy = new Stat(25, 5, "+", "% more accurate", 35, "-", "% less accurate", 20);							stats.add(accuracy);				accuracy.setNombre("\033[33maccuracy\033[0m");
+		minicritsFromBack = new Stat("Mini-crits targets when fired at their back from close range", 20, true);		stats.add(minicritsFromBack);		minicritsFromBack.setNombre("\033[36mminicritsFromBack\033[0m");
+		mediumRangeBulletsPass = new Stat("On medium and short range hits: Bullets pass thorugh enemies", 10, true);stats.add(mediumRangeBulletsPass);	mediumRangeBulletsPass.setNombre("\033[36mmediumRangeBulletsPass\033[0m");
 	}
 	
 	private void relacionadasBalas() {
@@ -431,12 +741,27 @@ public class Weapon {
 	private void setTipoProyectil() {
 		projectileSpeed = new Stat(80, 5,"+", "% projectile speed", 35, "-", "% projectile speed", 20);		stats.add(projectileSpeed);		projectileSpeed.setNombre("\033[33mprojectileSpeed\033[0m");
 		projectileSpread = new Stat(3, 1, "+", " degrees random projectile deviation", 40, false);			stats.add(projectileSpread);	projectileSpread.setNombre("\033[91mprojectileSpread\033[0m");
+		reflectedTurnsCrit = new Stat("Reflected projectiles become crit boosted", 30, false);				stats.add(reflectedTurnsCrit);	reflectedTurnsCrit.setNombre("\033[91mreflectedTurnsCrit\033[0m");
+		cannotReflect = new Stat("Projectile cannot be deflected", 30, true);								stats.add(cannotReflect);		cannotReflect.setNombre("\033[36mcannotReflect\033[0m");
+	}
+	
+	private void relacionadasProyectil() {
+		reflectedTurnsCrit.setLista(Arrays.asList(cannotReflect));
+		cannotReflect.setLista(Arrays.asList(reflectedTurnsCrit));
 	}
 	
 	private void setTipoExplosion() {
 		explosionRadius = new Stat(25, 5, "+", "% explosion radius", 50, "-", "% explosion radius", 70);	stats.add(explosionRadius);		explosionRadius.setNombre("\033[33mexplosionRadius\033[0m");
 		destroysStickies = new Stat("Able to destroy enemy stickybombs", 25, true);							stats.add(destroysStickies);	destroysStickies.setNombre("\033[36mdestroysStickies\033[0m");
 		fireExplosion = new Stat("Explosions ignite enemies for up to 2 seconds", 30, true);				stats.add(fireExplosion);		fireExplosion.setNombre("\033[36mfireExplosion\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 											   SCOUT											 *
+	**************************************************************************************************/
+	private void setTipoScattergun() {
+		reloadOnKill = new Stat("On kill: Automatically reloads one shot", 35, true);					stats.add(reloadOnKill);			reloadOnKill.setNombre("\033[36mreloadOnKill\033[0m");
+		ifAllConnectDebuff = new Stat(6, 1, "", "");													stats.add(ifAllConnectDebuff);		ifAllConnectDebuff.setNombre("\033[36mifAllConnectDebuff\033[0m");
 	}
 	
 	/**************************************************************************************************
@@ -506,6 +831,23 @@ public class Weapon {
 		StickyDmgCharge = new Stat(35, 5, "Up to +", "% damage based on charge", 30, "Up to -", "% damage based on charge", 35);				stats.add(StickyDmgCharge);		StickyDmgCharge.setNombre("\033[33mStickyDmgCharge\033[0m");
 	}
 	
+	private void setTipoShield() {
+		chargeImpactDmg = new Stat(70, 10, "+", "% increase in charge impact damage", 30, true);												stats.add(chargeImpactDmg);				chargeImpactDmg.setNombre("\033[36mchargeImpactDmg\033[0m");
+		chargeRechargeRate = new Stat(60, 10, "+", "% increase in charge recharge rate", 30, "-", "% decrease in charge recharge rate", 30);	stats.add(chargeRechargeRate);			chargeRechargeRate.setNombre("\033[33mchargeRechargeRate\033[0m");
+		fullTurnControlCharge = new Stat("Full turning control while charging", 45, true);														stats.add(fullTurnControlCharge);		fullTurnControlCharge.setNombre("\033[36mfullTurnControlCharge\033[0m");
+		meleeKillsRefillcharge = new Stat(75, 5, "Melee kills refill ", "% of your charge meter", 45, true);									stats.add(meleeKillsRefillcharge);		meleeKillsRefillcharge.setNombre("\033[36mmeleeKillsRefillcharge\033[0m");
+	}
+	
+	private void setTipoSword() {
+		chargeDuration = new Stat(10, 1, 4, "0."," sec increase in charge duration", 45, "0.", " sec decrease in charge duration");		stats.add(chargeDuration);			chargeDuration.setNombre("\033[33mchargeDuration\033[0m");
+		meleeKillsRefillcharge = new Stat(40, 5, "Melee kills refill ", "% of your charge meter", 35, true);							stats.add(meleeKillsRefillcharge);	meleeKillsRefillcharge.setNombre("\033[36mmeleeKillsRefillcharge\033[0m");
+		killsHealHP = new Stat(60, 5, "Gain ","% of base health on kill", 35, true);													stats.add(killsHealHP);				killsHealHP.setNombre("\033[36mkillsHealHP\033[0m");
+		honorbound = new Stat("Honorbound: Once drawn sheathing deals 50 damage to yourself unless it kills", 35, false);				stats.add(honorbound);				honorbound.setNombre("\033[91mhonorbound\033[0m");
+		ammoRefillsCharge = new Stat("Ammo boxes collected also refill your charge meter", 20, true);									stats.add(ammoRefillsCharge);		ammoRefillsCharge.setNombre("\033[36mammoRefillsCharge\033[0m");
+		medkitsRefillCharge = new Stat("Health packs collected also refill your charge meter", 25, true);								stats.add(medkitsRefillCharge);		medkitsRefillCharge.setNombre("\033[36mmedkitsRefillCharge\033[0m");
+		hitsRefillCharge = new Stat(30, 5, "Melee hits refill ", "% of your charge meter", 25, true);									stats.add(hitsRefillCharge);		hitsRefillCharge.setNombre("\033[36mhitsRefillCharge\033[0m");
+	}
+	
 	/**************************************************************************************************
 	 * 											   HEAVY											 *
 	**************************************************************************************************/
@@ -514,7 +856,7 @@ public class Weapon {
 		spinUpTime = new Stat(20, 5, "", "% slower spin up time", 35, "", "% slower spin up time", 50);									stats.add(spinUpTime);			spinUpTime.setNombre("\033[33mspinUpTime\033[0m");
 		spinDownTime = new Stat(30, 5, "", "% faster spin down time", 15, "", "% slower spin down time", 50);							stats.add(spinDownTime);		spinDownTime.setNombre("\033[33mspinDownTime\033[0m");
 		moveSpeedSpun = new Stat(20, 5, "+", "% faster move speed while spun up", 25, "-", "% slower move speed while spun up", 60);	stats.add(moveSpeedSpun);		moveSpeedSpun.setNombre("\033[33mmoveSpeedSpun\033[0m");
-		silentSpun = new Stat("Silent Killer: Silent spin sound", "Screaming Killer: Louder spin sound", 20);							stats.add(silentSpun);			silentSpun.setNombre("\033[36msilentSpun\033[0m");
+		silentSpun = new Stat("Silent Killer: Silent spin sound", "Screaming Killer: Louder spin sound", 20);							stats.add(silentSpun);			silentSpun.setNombre("\033[33msilentSpun\033[0m");
 	}
 	
 	private void setTipoShotgunHeavy() {
@@ -527,30 +869,116 @@ public class Weapon {
 	 * 											 ENGINEER											 *
 	**************************************************************************************************/
 	private void setTipoShotgunEngineer() {
-		shotgunDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 30, "", "% decreased damage to your sentry's target", 25);
-		revengeCrits = new Stat("Gain 2 revenge crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 40, true);
-		revengeMinicrits = new Stat("Gain 2 revenge mini-crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 15, true);
-		shotgunMetalOnHit = new Stat(60, 5, "On Hit: Gain up to +", " metal per attack", 40, true);
-		shotgunMetalLossShooting = new Stat(40, 5, "Per Shot: Lose up to -", " metal per attack", 35, false);
-		shotgunSentryVuln = new Stat(30, 5, "+", "% damage resistance for your Sentry Gun while active", 35, "-", "% damage vulnerabilty for your Sentry Gun while active", 30);
+		shotgunDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 30, "", "% decreased damage to your sentry's target", 25);						stats.add(shotgunDmgToSentryTarget);	shotgunDmgToSentryTarget.setNombre("\033[33mshotgunDmgToSentryTarget\033[0m");
+		revengeCrits = new Stat("Gain 2 revenge crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 40, true);								stats.add(revengeCrits);				revengeCrits.setNombre("\033[36mrevengeCrits\033[0m");
+		revengeMinicrits = new Stat("Gain 2 revenge mini-crits for each sentry kill and\r\n1 for each sentry assist when your sentry is destroyed", 15, true);						stats.add(revengeMinicrits);			revengeMinicrits.setNombre("\033[36mrevengeMinicrits\033[0m");
+		shotgunMetalOnHit = new Stat(60, 5, "On Hit: Gain up to +", " metal per attack", 40, true);																					stats.add(shotgunMetalOnHit);			shotgunMetalOnHit.setNombre("\033[36mshotgunMetalOnHit\033[0m");
+		shotgunMetalLossShooting = new Stat(40, 5, "Per Shot: Lose -", " metal", 35, false);																						stats.add(shotgunMetalLossShooting);	shotgunMetalLossShooting.setNombre("\033[91mshotgunMetalLossShooting\033[0m");
+		shotgunSentryVuln = new Stat(30, 5, "+", "% damage resistance for your Sentry Gun while active", 35, "-", "% damage vulnerabilty for your Sentry Gun while active", 30);	stats.add(shotgunSentryVuln);			shotgunSentryVuln.setNombre("\033[33mshotgunSentryVuln\033[0m");
 	}
 	
 	private void setTipoPistolEngineer() {
-		pistolDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 20, "", "% decreased damage to your sentry's target", 25);
-		iconOverTarget = new Stat("Displays an icon over the current target of your Sentry Gun", 15, true);
-		pistolMetalOnHit = new Stat(10, 1, "On Hit: Gain up to +", " metal per attack", 20, true);
-		pistolMetalLossShooting = new Stat(5, 1, "Per Shot: Lose up to -", " metal per attack", 25, false);
-		pistolSentryVuln = new Stat(25, 5, "+", "% damage resistance for your Sentry Gun while active", 30, "-", "% damage vulnerabilty for your Sentry Gun while active", 25);
+		pistolDmgToSentryTarget = new Stat(25, 5, "", "% increased damage to your sentry's target", 20, "", "% decreased damage to your sentry's target", 25);					stats.add(pistolDmgToSentryTarget);		pistolDmgToSentryTarget.setNombre("\033[33mpistolDmgToSentryTarget\033[0m");
+		iconOverTarget = new Stat("Displays an icon over the current target of your Sentry Gun", 15, true);																		stats.add(iconOverTarget);				iconOverTarget.setNombre("\033[36miconOverTarget\033[0m");
+		pistolMetalOnHit = new Stat(10, 1, "On Hit: Gain up to +", " metal per attack", 20, true);																				stats.add(pistolMetalOnHit);			pistolMetalOnHit.setNombre("\033[36mpistolMetalOnHit\033[0m");
+		pistolMetalLossShooting = new Stat(5, 1, "Per Shot: Lose -", " metal", 25, false);																						stats.add(pistolMetalLossShooting);		pistolMetalLossShooting.setNombre("\033[91mpistolMetalLossShooting\033[0m");
+		pistolSentryVuln = new Stat(25, 5, "+", "% damage resistance for your Sentry Gun while active", 30, "-", "% damage vulnerabilty for your Sentry Gun while active", 25);	stats.add(pistolSentryVuln);			pistolSentryVuln.setNombre("\033[33mpistolSentryVuln\033[0m");
 	}
+	
 	/**************************************************************************************************
-	 * 											 ENGINEER											 *
+	 * 											   MEDIC											 *
 	**************************************************************************************************/
 	private void setTipoSyringeGun() {
 		
 	}
 	
 	private void setTipoMedigun() {
+		healRate = new Stat(40, 5, "+", "% heal rate", 30, "-", "% heal rate", 10);							stats.add(healRate);			healRate.setNombre("\033[33mhealRate\033[0m");
+		uberRate = new Stat(65, 5, "+", "% Übercharge rate", 30, "-", "% Übercharge rate", 20);				stats.add(uberRate);			uberRate.setNombre("\033[33muberRate\033[0m");
+		overhealRate = new Stat(25, 5, "+", "% Overheal rate", 25, "-", "% Overheal rate", 65);				stats.add(overhealRate);		overhealRate.setNombre("\033[33moverhealRate\033[0m");
+		overhealMax = new Stat("+", "% max Overheal", 25, "", "% max Overheal", 100);						stats.add(overhealMax);			overhealMax.setNombre("\033[33moverhealMax\033[0m");
+		//mimicsRJ = new Stat("Mirror the blast jumps and shield charges of patients.", 30, true);			stats.add(mimicsRJ);			mimicsRJ.setNombre("\033[36mmimicsRJ\033[0m");
+		buffsOnClass = new Stat("Gains small buffs depending on what class you are healing", 30, true);		stats.add(buffsOnClass);		buffsOnClass.setNombre("\033[36mbuffsOnClass\033[0m");
+		healBuildings = new Stat("Able to slowly heal friendly buildings", 40, true);						stats.add(healBuildings);		healBuildings.setNombre("\033[36mhealBuildings\033[0m");
+		drainsHealth = new Stat("Able to drain health from enemies", 45, true);								stats.add(drainsHealth);		drainsHealth.setNombre("\033[36mdrainsHealth\033[0m");
 		
+		deploySpeed = new Stat(75, 5, "This weapon deploys ", "% faster", 25, "This weapon deploys ", "% slower", 75);					stats.add(deploySpeed);			deploySpeed.setNombre("\033[33mdeploySpeed\033[0m");
+		holsterSpeed = new Stat(30, 5, "This weapon holsters ", "% faster", 20, "This weapon holsters ", "% slower", 75);				stats.add(holsterSpeed);		holsterSpeed.setNombre("\033[33mholsterSpeed\033[0m");
+		speedActive = new Stat(10, 5, "+", "% faster moving speed while active", 45, "-", "% slower moving speed while active",10);		stats.add(speedActive);			speedActive.setNombre("\033[33mspeedActive\033[0m");
+		jumpActive = new Stat(25, 5, "+", "% greater jump height when active", 15, "-", "% jump height while active",25);				stats.add(jumpActive);			jumpActive.setNombre("\033[33mjumpActive\033[0m");
+	}
+	
+	/**************************************************************************************************
+	 * 											   SNIPER											 *
+	**************************************************************************************************/
+	private void setSniperRifle() {
+		chargeRate = new Stat(30, 5, "+", "% charge rate", 40, "-", "% charge rate", 30);													stats.add(chargeRate);			chargeRate.setNombre("\033[33mchargeRate\033[0m");
+		//chargeOnKills = new Stat(6, 2, true);																								stats.add(chargeOnKills);		chargeOnKills.setNombre("\033[36mchargeOnKills\033[0m");
+		hsMinicrit = new Stat("Headshots Mini-crit instead of crit", 50, false);															stats.add(hsMinicrit);			hsMinicrit.setNombre("\033[91mhsMinicrit\033[0m");
+		hsonlyFull = new Stat(90, 10, "Headshots only when charge is ", "% or more", 40, false);											stats.add(hsonlyFull);			hsonlyFull.setNombre("\033[91mhsonlyFull\033[0m");
+		hsonlyFull2 = new Stat("No headshots when not fully charged", 50, false);															stats.add(hsonlyFull2);			hsonlyFull2.setNombre("\033[91mhsonlyFull2\033[0m");
+		noNoscope = new Stat("Cannot fire unless zoomed", 25, false);																		stats.add(noNoscope);			noNoscope.setNombre("\033[91mnoNoscope\033[0m");
+		lessDmgMulti = new Stat(20, 10, "+", "% damage multiplier based on charge", 30, "-", "% damage multiplier based on charge", 30);	stats.add(lessDmgMulti);		lessDmgMulti.setNombre("\033[91mlessDmgMulti\033[0m");
+		debuffOnCharge = new Stat(6, 2);																									stats.add(debuffOnCharge);		debuffOnCharge.setNombre("\033[36mdebuffOnCharge\033[0m");
+		dmgOnBodyS = new Stat(25,5, "-", "% damage on body shot", 25, false);																stats.add(dmgOnBodyS);			dmgOnBodyS.setNombre("\033[91mdmgOnBodyS\033[0m");
+	}
+	
+	private void relacionadasSniperRifle() {
+		hsonlyFull.setLista(Arrays.asList(hsonlyFull2));
+		hsonlyFull2.setLista(Arrays.asList(hsonlyFull));
+	}
+	
+	/**************************************************************************************************
+	 * 											     SPY											 *
+	**************************************************************************************************/
+	private void setTipoRevolver() {
+		canHeadshot = new Stat("Crits on headshot", 50, true);																								stats.add(canHeadshot);			canHeadshot.setNombre("\033[36mcanHeadshot\033[0m");
+		cloakHit = new Stat(20, 5, "+", "% cloak on hit", 20, true);																						stats.add(cloakHit);			cloakHit.setNombre("\033[36mcloakHit\033[0m");
+		cloakDuration = new Stat(50, 5, "+", "% cloak duration", 35, "-", "% cloack duration", 15);															stats.add(cloakDuration);		cloakDuration.setNombre("\033[33mcloakDuration\033[0m");
+		revolverDmgPierce = new Stat("Attacks pierce damage resistance effects and bonuses", 25, true);														stats.add(revolverDmgPierce);	revolverDmgPierce.setNombre("\033[36mrevolverDmgPierce\033[0m");
+		dmgWhileDisg = new Stat(25, 5, "+", "% damage bonus while disguised", 15, "-", "% damage penalty while disguised", 25);								stats.add(dmgWhileDisg);		dmgWhileDisg.setNombre("\033[33mdmgWhileDisg\033[0m");
+		dmgNoDisg = new Stat(20, 5, "+", "% damage bonus while undisguised", 20, "-", "% damage penalty while undisguised", 20);							stats.add(dmgNoDisg);			dmgNoDisg.setNombre("\033[33mdmgNoDisg\033[0m");
+		critsStabSap = new Stat("Gives one guaranteed critical hit for each building destroyed with your sapper attached or backstab kill", 50, true);		stats.add(critsStabSap);		critsStabSap.setNombre("\033[36mcritsStabSap\033[0m");
+		critsStab = new Stat("Gives one guaranteed critical hit for each backstab kill", 25, true);															stats.add(critsStab);			critsStab.setNombre("\033[36mcritsStab\033[0m");
+		critsSap = new Stat("Gives one guaranteed critical hit for each building destroyed with your sapper attached", 25, true);							stats.add(critsSap);			critsSap.setNombre("\033[36mcritsSap\033[0m");
+		minicritsStabSap = new Stat("Gives one guaranteed Mini-crit for each building destroyed with your sapper attached or backstab kill", 30, true);		stats.add(minicritsStabSap);	minicritsStabSap.setNombre("\033[36mminicritsStabSap\033[0m");
+		minicritsStab = new Stat("Gives one guaranteed Mini-crit for each backstab kill", 15, true);														stats.add(minicritsStab);		minicritsStab.setNombre("\033[36mminicritsStab\033[0m");
+		minicritsSap = new Stat("Gives one guaranteed Mini-crit for each building destroyed with your sapper attached", 15, true);							stats.add(minicritsSap);		minicritsSap.setNombre("\033[36mminicritsSap\033[0m");
+		//critsFallOff = new Stat("Critical damage is affected by range", 25, false);																		stats.add(critsFallOff);		critsFallOff.setNombre("\033[91mcritsFallOff\033[0m");
+		debuffHeadshot = new Stat(6, 1, 00000);																												stats.add(debuffHeadshot);		debuffHeadshot.setNombre("\033[36mdebuffHeadshot\033[0m");
+		dmgOnSappedBuildings = new Stat(20, 5, "+", "% damage bonus on sapped buildings", 30, "-", "% damage penalty on sapped buildings", 20);				stats.add(dmgOnSappedBuildings);dmgOnSappedBuildings.setNombre("\033[33mdmgOnSappedBuildings\033[0m");
+	}
+	
+	private void relacionadasRevolver() {
+		canHeadshot.setLista(Arrays.asList(debuffHeadshot));
+		debuffHeadshot.setLista(Arrays.asList(canHeadshot));
+		dmgWhileDisg.setLista(Arrays.asList(dmgNoDisg));
+		dmgNoDisg.setLista(Arrays.asList(dmgWhileDisg));
+		critsStabSap.setLista(Arrays.asList(critsStab, critsSap, minicritsStabSap, minicritsStab, minicritsSap));
+		critsStab.setLista(Arrays.asList(critsStabSap, critsSap, minicritsStabSap, minicritsStab));
+		critsSap.setLista(Arrays.asList(critsStabSap, critsStab, minicritsStabSap, minicritsSap));
+		minicritsStabSap.setLista(Arrays.asList(critsStab, critsSap, critsStabSap, minicritsStab, minicritsSap));
+		minicritsStab.setLista(Arrays.asList(minicritsStabSap, minicritsSap, critsStab, critsStabSap));
+		minicritsSap.setLista(Arrays.asList(minicritsStabSap, critsSap, minicritsStab, critsStabSap));
+	}
+	
+	private void setTipoSapper() {
+		// Stat sapperHP, sapperDmg, sapperExplodes, doesntDeactBuild, drainsAmmoBuild, drainsBuildRate, vulnOnSappedBuilds, sapperAppliedBuff, SapperDestroyedBuff, sapperCompletedBuff;
+		sapperHP = new Stat(35,35, "+", " max Sapper health", 40, "-", " max Sapper health", 35);															stats.add(sapperHP);			sapperHP.setNombre("\033[33msapperHP\033[0m");
+		sapperDmg = new Stat(40, 10, "+", "% Sapper damage bonus", 60, "-", "% Sapper damage penalty", 100);												stats.add(sapperDmg);			sapperDmg.setNombre("\033[33msapperDmg\033[0m");
+		sapperExplodes = new Stat("Sapper explodes if it destroys the building", 30, true);																	stats.add(sapperExplodes);		sapperExplodes.setNombre("\033[36msapperExplodes\033[0m");
+		doesntDeactBuild = new Stat("Doesn't deactivate buildings while sapping", 35, false);																stats.add(doesntDeactBuild);	doesntDeactBuild.setNombre("\033[91mdoesntDeactBuild\033[0m");
+		drainsAmmoBuild = new Stat("Drains ammo from Sentry Guns and metal from Dispensers", 10, true);														stats.add(drainsAmmoBuild);		drainsAmmoBuild.setNombre("\033[36mdrainsAmmoBuild\033[0m");
+		drainsBuildRate = new Stat("Drains upgrade progress from buildings that are not completly upgraded", 5, true);										stats.add(drainsBuildRate);		drainsBuildRate.setNombre("\033[36mdrainsBuildRate\033[0m");
+		vulnOnSappedBuilds = new Stat(25, 5, "-", "% damage vulnerability on sapped buildings", 30, "+", "% damage resistance on sapped buildings", 25);	stats.add(vulnOnSappedBuilds);	vulnOnSappedBuilds.setNombre("\033[33mvulnOnSappedBuilds\033[0m");
+		//sapperAppliedBuff = new Stat();
+		//SapperDestroyedBuff = new Stat();
+		//sapperCompletedBuff = new Stat();
+		
+		deploySpeed = new Stat(75, 5, "This weapon deploys ", "% faster", 25, "This weapon deploys ", "% slower", 75);					stats.add(deploySpeed);			deploySpeed.setNombre("\033[33mdeploySpeed\033[0m");
+		holsterSpeed = new Stat(30, 5, "This weapon holsters ", "% faster", 20, "This weapon holsters ", "% slower", 75);				stats.add(holsterSpeed);		holsterSpeed.setNombre("\033[33mholsterSpeed\033[0m");
+		speedActive = new Stat(10, 5, "+", "% faster moving speed while active", 45, "-", "% slower moving speed while active",10);		stats.add(speedActive);			speedActive.setNombre("\033[33mspeedActive\033[0m");
+		jumpActive = new Stat(25, 5, "+", "% greater jump height when active", 15, "-", "% jump height while active",25);				stats.add(jumpActive);			jumpActive.setNombre("\033[33mjumpActive\033[0m");
 	}
 	
 	public void generarArma() {
@@ -573,8 +1001,101 @@ public class Weapon {
 		System.out.print("\n NEGATIVOS: "+ statsNegativosDisponibles);
 		
 		// Generar los stats positivos
-		for(i = 0; i < maxStatsPositivos; i++) {
-			getStatPositivo();
+		/*
+		if(maxStatsPositivos != 0) {
+			for(i = 0; i < maxStatsPositivos; i++) {
+				getStatPositivo();
+			}
+		} else {
+			Random rand = new Random();
+			maxStatsPositivos = rand.nextInt(5)+1;
+			for(i = 0; i < maxStatsPositivos; i++) {
+				getStatPositivo();
+			}
+		}
+		*/
+		if(maxStatsPositivos == 0) {
+			while(positivos.size() < 5 && puntuacionPositiva < maxPuntuacionPositivos) {
+				int cabe = 2; 
+				Random rand = new Random();
+				int r = rand.nextInt(statsPositivosDisponibles);
+				int aux = r;
+				int cont = 0;
+				Stat statAux;
+				int indexOfMin = aux;
+				
+				// Si la puntuación ya superó el promedio, puede seguir o no de manera aleatoria
+				if(puntuacionPositiva >= (maxPuntuacionPositivos+minPuntuacionPositivos)/2) {
+					Random rand2 = new Random();
+					int r2;
+					if(positivos.size() >= 2) {
+						r2 = rand2.nextInt(positivos.size());
+					} else if(positivos.size() == 1) {
+						r2 = rand2.nextInt(2);
+					} else {
+						r2 = 0;
+					}
+					if(r2 != 0) {
+						break;
+					}
+				}
+				
+				// Analiza todos los stats y si cabe dentro de la puntuación
+				do {
+					statAux = stats.get(aux);
+					System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(true)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionPositiva);
+					if(statAux.getPuntajeMenor(true) < stats.get(indexOfMin).getPuntajeMenor(true)) {
+						indexOfMin = aux;
+					}
+					if(	(positivos.size() == 4 && statAux.getPeso() < ((minPuntuacionPositivos - puntuacionPositiva)/(5-positivos.size()) - 10))
+						|| statAux.getPuntajeMenor(true) > (maxPuntuacionPositivos - puntuacionPositiva)) {
+						aux++;
+					} else {
+						break;
+					}
+					if(stats.size() == aux || stats.get(aux).getType() == 3) {
+						aux = 0;
+					}
+				} while(aux != r);
+				if(puntuacionPositiva+stats.get(indexOfMin).getPuntajeMenor(true) > maxPuntuacionPositivos) {
+					break;
+					//statAux = stats.get(indexOfMin);
+				}
+				if(	statAux.getPeso() < ((minPuntuacionPositivos - puntuacionPositiva)/(5-positivos.size()) - 10) ) {
+					cabe = 1;
+				} else if(statAux.getPuntajeMenor(true) > (maxPuntuacionPositivos - puntuacionPositiva)) {
+					cabe = 3;
+				}
+				if(cabe == 1) {
+					do {
+						statAux.setPositivo();
+					} while(statAux.getPuntaje() != statAux.getPeso());
+				} else if(cabe == 3) {
+					do {
+						statAux.setPositivo();
+					} while(statAux.getPuntaje() != statAux.getPuntajeMenor(true));
+				} else {
+					do {
+						statAux.setPositivo();
+						cont++;
+						if(cont == 60) {
+							break;
+						}
+						System.out.print("\n Puntaje = "+statAux.getPuntaje());
+					} while((positivos.size() == 4 && statAux.getPeso() < ((minPuntuacionPositivos - puntuacionPositiva)/(5-positivos.size()) - 10))
+							|| statAux.getPuntaje() > (maxPuntuacionPositivos - puntuacionPositiva));
+				}
+				System.out.print("\n\n   "+statAux.getTexto()+"\n");
+				positivos.add(statAux);
+				puntuacionPositiva += statAux.getPuntaje();
+				eliminarStats(statAux);
+			}
+		} else {
+			Random rand = new Random();
+			maxStatsPositivos = rand.nextInt(5)+1;
+			for(i = 0; i < maxStatsPositivos; i++) {
+				getStatPositivo();
+			}
 		}
 		
 		// Generar los stats negativos
@@ -675,24 +1196,5 @@ public class Weapon {
 		System.out.print("\n ");
 		stats.remove(stats.indexOf(s));
 	}
-	
-	public void setPoder(int p) {
-		switch(p) {
-		case 1:
-			lim = -45;
-			break;
-		case 2:
-			lim = -25;
-			break;
-		case 3:
-			lim = 10;
-			break;
-		case 4:
-			lim = 30;
-			break;
-		case 5:
-			lim = 45;
-			break;
-		}
-	}
+
 }
