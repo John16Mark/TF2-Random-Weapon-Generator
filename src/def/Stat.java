@@ -21,6 +21,7 @@ public class Stat implements Comparable<Stat>{
 	// Valor máximo que puede tener la variable aleatoria
 	private int maxPositivo;
 	private int maxNegativo;
+
 	// Valor de tamaño de paso de la variable aleatoria
 	private int paso;
 	// Valor aleatorio que tendrá el stat
@@ -36,31 +37,48 @@ public class Stat implements Comparable<Stat>{
 	// Para ammo pool:
 	private int max;
 	
+	// PARA LOS QUE TIENEN RANGO
+	// Valor mínimo que puede tener la variable aleatoria
+	private int minPositivo;
+	private int minNegativo;
+	private boolean esDeRango;
+	private boolean isInverted;
+	
 	private boolean esTiempo = false;
 	
-	private boolean esDebuffSniper = false;
-	private boolean esDebuffRevolver = false;
-	private boolean esDebuffScattergun = false;
-	private ArrayList<String> debuffs = new ArrayList<String>(Arrays.asList("MarkedForDeath", "Jarate", "Mad Milk", "Fire", "Bleed", "Slow", "Gas", "Scare"));
+	private boolean esBuff = false;
+	private boolean esDebuff = false;
+	private int maxPeso = 0;
+	private int minPeso = 0;
+	private ArrayList<Buff> buffs;
+	private ArrayList<Debuff> debuffs;
+	
+	private Buff megaHeal = new Buff("Megaheal");
+	private Buff crit = new Buff("Crit");
+	private Buff miniCrit = new Buff("Minicrit");
+	private Buff heal = new Buff("Heal");
+	private Buff speedBoost = new Buff("Speedboost");
+	private Buff fireSpeed = new Buff("FireSpeed");
+	private Buff damageRes = new Buff("DamageRes");
+	private Buff fireRes = new Buff("FireRes");
+	private Buff expRes = new Buff("ExpRes");
+	private Buff bullRes = new Buff("BullRes");
+	private Buff meleeRes = new Buff("MeleeRes");
+	
+	private Debuff markedForDeath = new Debuff("MarkedForDeath");
+	private Debuff jarate = new Debuff("Jarate");
+	private Debuff madMilk = new Debuff("Mad Milk");
+	private Debuff fire = new Debuff("Fire");
+	private Debuff bleed = new Debuff("Bleed");
+	private Debuff slow = new Debuff("Slow");
+	private Debuff gasPasser = new Debuff("Gas");
+	private Debuff scare = new Debuff("Scare");
+	
 	private int minTime;
 	
-	// Constructor de stat con número aleatorio que solamente es positivo o negativo.
-	public Stat(int maxValor, int salto, String txt1, String txt2, int valor, boolean esPositivo) {
-		paso = salto;
-		if(esPositivo) {
-			type = 1;
-			maxPositivo = maxValor;
-			textoPositivo1 = txt1;
-			textoPositivo2 = txt2;
-		} else {
-			type = 3;
-			maxNegativo = maxValor;
-			textoNegativo1 = txt1;
-			textoNegativo2 = txt2;
-		}
-		weight = valor;
-	}
-	
+	/*******************************************************************
+	 * 				 PUEDE SER AMBOS: POSITIVO O NEGATIVO
+	*******************************************************************/
 	// Constructor de stat que puede ser tanto positivo y negativo con número aleatorio
 	public Stat(int m, int p, String t1, String t2, int w, String tt1, String tt2, int m2) {
 		type = 2;
@@ -116,6 +134,36 @@ public class Stat implements Comparable<Stat>{
 		definirDivisorAmmo();
 	}
 	
+	// Constructor de stat positivo o negativo que solo contiene texto
+	public Stat(String t1, String t2, int w) {
+		type = 2;
+		soloTexto = true;
+		weight = w;
+		textoPositivo1 = t1;
+		textoNegativo1 = t2;
+	}
+	
+	/*******************************************************************
+	 * 							 SOLO UNO A LA VEZ
+	*******************************************************************/
+	
+	// Constructor de stat con número aleatorio que solamente es positivo o negativo.
+	public Stat(int maxValor, int salto, String txt1, String txt2, int valor, boolean esPositivo) {
+		paso = salto;
+		if(esPositivo) {
+			type = 1;
+			maxPositivo = maxValor;
+			textoPositivo1 = txt1;
+			textoPositivo2 = txt2;
+		} else {
+			type = 3;
+			maxNegativo = maxValor;
+			textoNegativo1 = txt1;
+			textoNegativo2 = txt2;
+		}
+		weight = valor;
+	}
+	
 	// Constructor de stat que solo contiene texto
 	public Stat(String t, int w, boolean esPositivo) {
 		soloTexto = true;
@@ -129,181 +177,202 @@ public class Stat implements Comparable<Stat>{
 		}
 	}
 	
-	// Constructor de stat positivo o negativo que solo contiene texto
-	public Stat(String t1, String t2, int w) {
-		type = 2;
-		soloTexto = true;
-		weight = w;
-		textoPositivo1 = t1;
-		textoNegativo1 = t2;
+	// Constructor de rango 
+	public Stat(int maxRango, int minRango, int salto, String txt1, String txt2, int valor, boolean esPositivo, boolean esInverso) {
+		weight = valor;
+		paso = salto;
+		if(esPositivo) {
+			type = 1;
+			maxPositivo = maxRango;
+			minPositivo = minRango;
+			textoPositivo1 = txt1;
+			textoPositivo2 = txt2;
+		} else {
+			type = 3;
+			maxNegativo = maxRango;
+			minPositivo = minRango;
+			textoNegativo1 = txt1;
+			textoNegativo2 = txt2;
+		}
+		isInverted = esInverso;
+		esDeRango = true;
 	}
 	
-	// Constructor de debuff Sniper Rifle
-	public Stat(int maxTiempo, int minTiempo) {
-		esDebuffSniper = true;
+	/**************************************************************
+	 * 					CONSTRUCTORES ESPECÍFICOS
+	**************************************************************/
+	
+	// Constructor buff
+	public Stat(int maxTiempo, int minTiempo, String DET) {
 		type = 1;
 		maxPositivo = maxTiempo;
 		minTime = minTiempo;
+		System.out.print("\nCreación MaxPositivo = "+maxPositivo);
+		System.out.print("\nCreación minTime = "+minTime);
+		esBuff = true;
+		definirBuffs(DET);
 	}
 	
-	// Constructor de debuff Revolver
-	public Stat(int maxTiempo, int minTiempo, int dummy) {
-		esDebuffRevolver = true;
+	// Constructor debuff
+	public Stat(String DET, int maxTiempo, int minTiempo) {
+		esDebuff = true;
 		type = 1;
 		maxPositivo = maxTiempo;
 		minTime = minTiempo;
+		definirDebuffs(DET);
 	}
 	
-	// Constructor de debuff Revolver
-	public Stat(int maxTiempo, int minTiempo, String dummy, String dummy2) {
-		esDebuffScattergun = true;
-		type = 1;
-		maxPositivo = maxTiempo;
-		minTime = minTiempo;
+	/**************************************************************
+	 * 							MÉTODOS
+	**************************************************************/
+	
+	private void definirBuffs(String DET) {
+		if(DET == "SapperApplied") {
+			megaHeal.setPeso(40);		crit.setPeso(90);		miniCrit.setPeso(70);	heal.setPeso(50);
+			speedBoost.setPeso(40);		fireSpeed.setPeso(40);	damageRes.setPeso(40);	fireRes.setPeso(35);
+			expRes.setPeso(25);			bullRes.setPeso(30);	meleeRes.setPeso(15);
+			
+			buffs = new ArrayList<>(Arrays.asList(
+					megaHeal, speedBoost, fireSpeed, damageRes,
+					fireRes, expRes, bullRes, meleeRes));
+			
+		} else if(DET == "SapperComplete") {
+			megaHeal.setPeso(40);		crit.setPeso(90);		miniCrit.setPeso(70);	heal.setPeso(50);
+			speedBoost.setPeso(40);		fireSpeed.setPeso(40);	damageRes.setPeso(40);	fireRes.setPeso(35);
+			expRes.setPeso(25);			bullRes.setPeso(30);	meleeRes.setPeso(15);
+			
+			buffs = new ArrayList<>(Arrays.asList(
+					megaHeal, miniCrit, speedBoost, fireSpeed, damageRes,
+					fireRes, expRes, bullRes, meleeRes));
+			
+		} else if(DET == "SapperRemoved") {
+			megaHeal.setPeso(40);		crit.setPeso(75);		miniCrit.setPeso(50);	heal.setPeso(45);
+			speedBoost.setPeso(40);		fireSpeed.setPeso(35);	damageRes.setPeso(40);	fireRes.setPeso(35);
+			expRes.setPeso(25);			bullRes.setPeso(30);	meleeRes.setPeso(15);
+			
+			buffs = new ArrayList<>(Arrays.asList(
+					speedBoost, fireSpeed, damageRes,
+					fireRes, expRes, bullRes, meleeRes));
+		}
+		
+		for(Buff b : buffs) {
+			b.setStat(DET);
+		}
+		
+		int menor = buffs.get(0).getPeso();
+		int mayor = buffs.get(0).getPeso();
+		for(Buff b : buffs) {
+			if(b.getPeso() < menor) {
+				menor = b.getPeso();
+			}
+			if(b.getPeso() > mayor) {
+				mayor = b.getPeso();
+			}
+		}
+		minPeso = menor;
+		maxPeso = mayor;
 	}
 	
-	public void setLista(List<Stat> rel) {
-		relacionados = new ArrayList<>(rel);
+	private void definirDebuffs(String DET) {
+		if(DET == "SniperRifle") {
+			markedForDeath.setPeso(30);		jarate.setPeso(30);		madMilk.setPeso(25);
+			fire.setPeso(15);				bleed.setPeso(20);		slow.setPeso(20);
+			gasPasser.setPeso(10);			scare.setPeso(50);
+			
+			debuffs = new ArrayList<>(Arrays.asList(markedForDeath, jarate, madMilk, fire, bleed, slow, gasPasser, scare));
+		} else if(DET == "RevolverHeadshot") {
+			markedForDeath.setPeso(35);		jarate.setPeso(35);		madMilk.setPeso(30);
+			fire.setPeso(20);				bleed.setPeso(25);		slow.setPeso(25);
+			gasPasser.setPeso(15);			scare.setPeso(55);
+			
+			debuffs = new ArrayList<>(Arrays.asList(markedForDeath, jarate, madMilk, fire, bleed, slow, gasPasser, scare));
+		} else if(DET == "ScattergunAllShot") {
+			markedForDeath.setPeso(25);		jarate.setPeso(30);		madMilk.setPeso(25);
+			fire.setPeso(15);				bleed.setPeso(20);		slow.setPeso(20);
+			gasPasser.setPeso(10);			scare.setPeso(55);
+			
+			debuffs = new ArrayList<>(Arrays.asList(markedForDeath, jarate, madMilk, fire, bleed, slow, gasPasser, scare));
+		}
+		
+		 else if(DET == "Sandman") {
+			markedForDeath.setPeso(30);		jarate.setPeso(30);		madMilk.setPeso(30);
+			fire.setPeso(15);				bleed.setPeso(20);		slow.setPeso(20);
+			gasPasser.setPeso(10);			scare.setPeso(45);
+			
+			debuffs = new ArrayList<>(Arrays.asList(markedForDeath, jarate, madMilk, fire, bleed, slow, gasPasser, scare));
+		}
+		
+		for(Debuff b : debuffs) {
+			b.setStat(DET);
+		}
+		
+		int menor = debuffs.get(0).getPeso();
+		int mayor = debuffs.get(0).getPeso();
+		for(Debuff b : debuffs) {
+			if(b.getPeso() < menor) {
+				menor = b.getPeso();
+			}
+			if(b.getPeso() > mayor) {
+				mayor = b.getPeso();
+			}
+		}
+		minPeso = menor;
+		maxPeso = mayor;
 	}
 	
 	private void definirPuntaje(){
 		
 		Random rand = new Random();
-		int r;
+		int r, r2;
 		
-		if(esDebuffSniper) {
-			r = rand.nextInt(debuffs.size());
-			String debuffSeleccionado = debuffs.get(r);
-			switch(debuffSeleccionado) {
-			case "MarkedForDeath":
-				weight = 30;
-				textoPositivo1 = "On Scoped Hit: Enemies are Marked-For-Death for "+minTime+" to ";
-				break;
-			case "Jarate":
-				weight = 30;
-				textoPositivo1 = "On Scoped Hit: Apply Jarate for "+minTime+" to ";
-				break;
-			case "Mad Milk":
-				weight = 25;
-				textoPositivo1 = "On Scoped Hit: Apply Mad Milk for "+minTime+" to ";
-				break;
-			case "Fire":
-				weight = 15;
-				textoPositivo1 = "On Scoped Hit: Ignites enemies for "+minTime+" to ";
-				break;
-			case "Bleed":
-				weight = 20;
-				textoPositivo1 = "On Scoped Hit: Causes bleed for "+minTime+" to ";
-				break;
-			case "Slow":
-				weight = 20;
-				textoPositivo1 = "On Scoped Hit: Slows the enemy for "+minTime+" to ";
-				break;
-			case "Gas":
-				weight = 10;
-				textoPositivo1 = "On Scoped Hit: Apply Gas Passer for "+minTime+" to ";
-				break;
-			case "Scare":
-				weight = 40;
-				textoPositivo1 = "On Scoped Hit: Scares enemies for "+minTime+" to ";
-				break;
-			}
-			textoPositivo2 = " seconds based on charge level.";
+		if(esBuff) {
+			// Número aleatorio para elegir el buff
+			r = rand.nextInt(buffs.size());
+			Buff buffAux = buffs.get(r);
+			weight = buffAux.getPeso();
+			
+			// Número aleatorio para el tiempo máximo
 			r = rand.nextInt(maxPositivo-minTime);
-			//System.out.print("\n\n"+(r+1)+" / "+(maxPositivo-minTime)+"\n\n");
-			puntaje = Float.valueOf(weight)*(Float.valueOf(r+1)/Float.valueOf(maxPositivo-minTime));
+			if(buffAux.getTexto2() == "") {
+				textoPositivo1 = buffAux.getTexto1();
+				puntaje = Float.valueOf(weight)*(Float.valueOf(r+1+minTime)/Float.valueOf(maxPositivo));
+			} else {
+				// Segundo número aleatorio para el porcentaje
+				r2 = (rand.nextInt(5)+1)*5;
+				textoPositivo1 = buffAux.getTexto1()+r2+buffAux.getTexto2();
+				puntaje = Float.valueOf(weight)*( ( ((Float.valueOf(r2))/25) + (Float.valueOf(r+1+minTime)/Float.valueOf(maxPositivo)) )/ 2 );
+			}
+			/*System.out.print("\ndentro de Es Buff MaxPositivo = "+maxPositivo);
+			System.out.print("\ndentro de Es Buff minTime = "+minTime);*/			
 			valor1 = r+1+minTime;
+			textoPositivo2 = " seconds.";
 			
 			return;
 		}
 		
-		if(esDebuffRevolver) {
+		if(esDebuff) {
+			// Número aleatorio para elegir el debuff
 			r = rand.nextInt(debuffs.size());
-			String debuffSeleccionado = debuffs.get(r);
-			switch(debuffSeleccionado) {
-			case "MarkedForDeath":
-				weight = 25;
-				textoPositivo1 = "On headshot: Enemy is Marked-For-Death for ";
-				break;
-			case "Jarate":
-				weight = 30;
-				textoPositivo1 = "On headshot: Apply Jarate for ";
-				break;
-			case "Mad Milk":
-				weight = 25;
-				textoPositivo1 = "On headshot: Apply Mad Milk for ";
-				break;
-			case "Fire":
-				weight = 15;
-				textoPositivo1 = "On headshot: Ignites enemies for ";
-				break;
-			case "Bleed":
-				weight = 20;
-				textoPositivo1 = "On headshot: Causes bleed for ";
-				break;
-			case "Slow":
-				weight = 20;
-				textoPositivo1 = "On headshot: Slows the enemy for ";
-				break;
-			case "Gas":
-				weight = 10;
-				textoPositivo1 = "On headshot: Apply Gas Passer for ";
-				break;
-			case "Scare":
-				weight = 40;
-				textoPositivo1 = "On headshot: Scares enemies for ";
-				break;
-			}
-			textoPositivo2 = " seconds.";
-			r = rand.nextInt(maxPositivo-minTime);
-			//System.out.print("\n\n"+(r+1)+" / "+(maxPositivo-minTime)+"\n\n");
-			puntaje = Float.valueOf(weight)*(Float.valueOf(r+1)/Float.valueOf(maxPositivo-minTime));
-			valor1 = r+1+minTime;
+			Debuff debuffAux = debuffs.get(r);
+			weight = debuffAux.getPeso();
 			
-			return;
-		}
-		
-		if(esDebuffScattergun) {
-			r = rand.nextInt(debuffs.size());
-			String debuffSeleccionado = debuffs.get(r);
-			switch(debuffSeleccionado) {
-			case "MarkedForDeath":
-				weight = 25;
-				textoPositivo1 = "If all bullets connect, deals Marks-For-Death the target for ";
-				break;
-			case "Jarate":
-				weight = 30;
-				textoPositivo1 = "If all bullets connect, applies Jarate to the target for ";
-				break;
-			case "Mad Milk":
-				weight = 25;
-				textoPositivo1 = "If all bullets connect, applies Mad Milk to the target for ";
-				break;
-			case "Fire":
-				weight = 15;
-				textoPositivo1 = "If all bullets connect, ignites the target for ";
-				break;
-			case "Bleed":
-				weight = 20;
-				textoPositivo1 = "If all bullets connect, causes bleed to the target for ";
-				break;
-			case "Slow":
-				weight = 20;
-				textoPositivo1 = "If all bullets connect, slows the target for ";
-				break;
-			case "Gas":
-				weight = 10;
-				textoPositivo1 = "If all bullets connect, applies Gas Passer to the target for ";
-				break;
-			case "Scare":
-				weight = 40;
-				textoPositivo1 = "If all bullets connect, scare the target for ";
-				break;
-			}
-			textoPositivo2 = " seconds.";
+			// Número aleatorio para el tiempo máximo
 			r = rand.nextInt(maxPositivo-minTime);
-			//System.out.print("\n\n"+(r+1)+" / "+(maxPositivo-minTime)+"\n\n");
-			puntaje = Float.valueOf(weight)*(Float.valueOf(r+1)/Float.valueOf(maxPositivo-minTime));
+			textoPositivo2 = " seconds.";
+			if(debuffAux.getTexto2() == "") {
+				textoPositivo1 = debuffAux.getTexto1();
+				puntaje = Float.valueOf(weight)*(Float.valueOf(r+1+minTime)/Float.valueOf(maxPositivo));
+			} else if(debuffAux.getTexto2() == " to ") {
+				textoPositivo1 = debuffAux.getTexto1()+minTime+debuffAux.getTexto2();
+				puntaje = Float.valueOf(weight)*(Float.valueOf(r+1+minTime)/Float.valueOf(maxPositivo));
+				textoPositivo2 = " seconds based on charge level.";
+			} else {/*
+				// Segundo número aleatorio para el porcentaje
+				r2 = (rand.nextInt(5)+1)*5;
+				textoPositivo1 = debuffAux.getTexto1()+r2+debuffAux.getTexto2();
+				///System.out.print("\nPuntaje = w:"+weight+"* ("+r2+"/25) + ("+(r+1+minTime)+"/"+maxPositivo+"/2");
+				puntaje = Float.valueOf(weight)*( ( ((Float.valueOf(r2))/25) + (Float.valueOf(r+1+minTime)/Float.valueOf(maxPositivo)) )/ 2 );*/
+			}
 			valor1 = r+1+minTime;
 			
 			return;
@@ -311,6 +380,25 @@ public class Stat implements Comparable<Stat>{
 		
 		if(soloTexto) {
 			puntaje = weight;
+			return;
+		}
+		
+		if(esDeRango) {
+			int totalOpciones;
+			if(tipo == tipos.POSITIVO) {
+				r = rand.nextInt((maxPositivo-minPositivo)/paso + 1);
+				totalOpciones = (maxPositivo-minPositivo)/paso + 1;
+				valor1 = r*paso + minPositivo;
+				if(isInverted) {
+					puntaje = Float.valueOf(weight)*(Float.valueOf(totalOpciones-r)/Float.valueOf(totalOpciones));
+				} else {
+					puntaje = Float.valueOf(weight)*(Float.valueOf(r+1)/Float.valueOf(totalOpciones));
+				}
+				
+			} else {
+				// TODO
+			}
+			
 			return;
 		}
 		
@@ -327,6 +415,18 @@ public class Stat implements Comparable<Stat>{
 					}
 					valor1 %= 10;
 				}
+				if(valor1 == 1 && textoPositivo1 == "On Hit: Victim can't cloak for ") {
+					textoPositivo2 = " second";
+				} else if(valor1 != 1 && textoPositivo1 == "On Hit: Victim can't cloak for ") {
+					textoPositivo2 = " seconds";
+				} else if(textoPositivo2 == " extra projectile" || textoPositivo2 == " extra projectiles") {
+					if(valor1 == 1) {
+						textoPositivo2 = " extra projectile";
+					} else if(valor1 == 2) {
+						textoPositivo2 = " extra projectiles";
+					}
+				}
+				
 			} else {
 				r = rand.nextInt((maxNegativo)/paso)+1;
 				valor1 = r*paso;
@@ -367,8 +467,24 @@ public class Stat implements Comparable<Stat>{
 	}
 	
 	public float getPuntajeMenor(boolean b) {
+		if(esDebuff) {
+			return minPeso*((1+minTime)/Float.valueOf(maxPositivo));
+		}
 		if(soloTexto) {
 			return weight;
+		}
+		if(esBuff) {
+			return minPeso*(1/Float.valueOf(maxPositivo-minTime));
+		}
+		if(esDeRango) {
+			int totalOpciones;
+			if(b) {
+				totalOpciones = (maxPositivo-minPositivo)/paso + 1;
+				return Float.valueOf(weight)*(1/Float.valueOf(totalOpciones));
+			} else {
+				totalOpciones = (maxNegativo-minNegativo)/paso + 1;
+				return Float.valueOf(weight)*(1/Float.valueOf(totalOpciones));
+			}
 		}
 		if(!esPorcentual) {
 			if(b) {
@@ -381,13 +497,13 @@ public class Stat implements Comparable<Stat>{
 				return Float.valueOf(weight)*(1/Float.valueOf(maxPositivo));
 			} else {
 				if(textoNegativo2 == "% max Overheal") {
-					puntaje = (Float.valueOf(weight)*(9/Float.valueOf(maxNegativo-1)));
+					return (Float.valueOf(weight)*(9/Float.valueOf(maxNegativo-1)));
 				} else {
-					puntaje = (Float.valueOf(weight)*(1/Float.valueOf(maxNegativo-1)));
+					return (Float.valueOf(weight)*(1/Float.valueOf(maxNegativo-1)));
 				}
 			}
 		}
-		return 999999;
+		//return 999999;
 	}
 	
 	private void definirDivisorAmmo() {
@@ -441,6 +557,10 @@ public class Stat implements Comparable<Stat>{
 	}
 	
 	public float getPeso() {
+		
+		if(esDebuff || esBuff) {
+			return maxPeso;
+		}
 		return weight;
 	}
 	
@@ -459,15 +579,15 @@ public class Stat implements Comparable<Stat>{
 	public String getTexto() {
 		if(soloTexto) {
 			if (tipo == tipos.POSITIVO) {
-				return textoPositivo1 + "     " + puntaje;
+				return textoPositivo1;
 			} else {
-				return textoNegativo1 + "     " + puntaje;
+				return textoNegativo1;
 			}
 		}
 		if (tipo == tipos.POSITIVO) {
-			return textoPositivo1 + valor1 + textoPositivo2 + "     " + puntaje;
+			return textoPositivo1 + valor1 + textoPositivo2;
 		} else {
-			return textoNegativo1 + valor1 + textoNegativo2 + "     " + puntaje;
+			return textoNegativo1 + valor1 + textoNegativo2;
 		}
 	}
 	
@@ -483,6 +603,10 @@ public class Stat implements Comparable<Stat>{
 	public void setNegativo() {
 		tipo = tipos.NEGATIVO;
 		definirPuntaje();
+	}
+	
+	public void setLista(List<Stat> rel) {
+		relacionados = new ArrayList<>(rel);
 	}
 	
 	@Override
