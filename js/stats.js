@@ -50,8 +50,8 @@ function updateSlider(isMax, slider, sliderMin, sliderMax, output) {
   slider.style.setProperty('--right-mask', rightPercent + '%');
 
   if(slider == powerSlider) {
-    minValue = power(minValue);
-    maxValue = power(maxValue);
+    minValue = power_levels_map.get(minValue).text;
+    maxValue = power_levels_map.get(maxValue).text;
   }
   if(minValue == maxValue)
     output.textContent = `${maxValue}`;
@@ -59,20 +59,7 @@ function updateSlider(isMax, slider, sliderMin, sliderMax, output) {
     output.textContent = `${minValue} - ${maxValue}`;
 }
 
-function power(number) {
-  switch(number) {
-    case 4:
-      return "Broken";
-    case 3:
-      return "Strong";
-    case 2:
-      return "Balanced";
-    case 1:
-      return "Weak";
-    default:
-      return "Trash";
-  }
-}
+
 
 positiveMin.addEventListener('input', () => {
   updateSlider(false, positiveSlider, positiveMin, positiveMax, positiveOutput);

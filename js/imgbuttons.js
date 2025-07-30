@@ -107,15 +107,16 @@ function toggleTipos(show) {
       tiposContainer.classList.add('imgButtons'+(resultado.length+1))
 
     // Para cada tipo de arma
-    resultado.forEach(tipo => {
+    for(var i=0; i<resultado.length; i++) {
+      let tipo = resultado[i];
       const elementoImagen = document.createElement('img');
       elementoImagen.classList.add('boton-opcion');
       elementoImagen.classList.add('tipo');
       if(resultado.length == 1)
         elementoImagen.classList.add('selected');
-      elementoImagen.setAttribute('data-valor', tipo)
+      elementoImagen.setAttribute('data-valor', i)
       
-      let imagen = class_type_map.get(selected_class + " " + tipo).image;
+      let imagen = tipo.image;
       if(imagen)
         elementoImagen.src = imagen;
 
@@ -130,7 +131,7 @@ function toggleTipos(show) {
       });
 
       tiposContainer.appendChild(elementoImagen);
-    });
+    }
   }
 
   document.querySelectorAll('.tipos').forEach(el => {

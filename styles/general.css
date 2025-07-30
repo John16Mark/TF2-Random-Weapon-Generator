@@ -74,7 +74,7 @@ body {
 }
 
 .settingsTitle {
-  margin-top: 26px;
+  margin-top: 20px;
   margin-bottom: 14px;
   font-family: 'TF2 Build', sans-serif;
   font-weight: normal;
@@ -83,7 +83,7 @@ body {
 
 .settingsSubtitle {
   margin-top: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-family: 'TF2 Build', sans-serif;
   font-weight: normal;
   text-shadow: 3px 2px 2px #000000;
@@ -150,7 +150,7 @@ body {
 }
 
 #generar {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 /******************************************************/
@@ -321,7 +321,7 @@ body {
 
 .imageBackground {
   position: relative;
-  margin-top: 26px;
+  margin-top: 20px;
   width: 290px;
   height: 290px;
   background-color: rgb(60, 54, 47);
@@ -455,8 +455,8 @@ body {
     margin-top: 20px;
   }
 
-  .imgButtons2 {
-    width: 58px;
+  .imgButtons1 {
+    width: 100px;
   }
 
   .imgButtons2 {
