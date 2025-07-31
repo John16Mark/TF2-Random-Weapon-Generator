@@ -58,6 +58,17 @@ body {
   font-weight: bold;
 }
 
+.presentacion-title {
+  font-family: 'TF2 Build', sans-serif;
+  font-weight: normal;
+}
+
+.presentacion-subtitle {
+  font-family: 'TF2 Secondary', sans-serif;
+  font-weight: normal;
+  font-size: small;
+}
+
 .columna {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -95,6 +106,10 @@ body {
   justify-content: center;
   width: 100%;
   margin: 0 auto;
+}
+
+img {
+  -webkit-tap-highlight-color: transparent;
 }
 
 #imgButtonsClasses {
@@ -361,18 +376,16 @@ body {
 
   .columna{
     width: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
   }
 
   .columna1 {
     border-radius: 16px 16px 0px 0px;
-    padding-left: 50px;
-    padding-right: 50px;
   }
   
   .columna2 {
     border-radius: 0px 0px 16px 16px;
-    padding-left: 50px;
-    padding-right: 50px;
   }
 
   .imgButtonsContainer {
@@ -475,6 +488,40 @@ body {
 
   .imgButtons5 {
     width: 290px;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .columna{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .imgButtonsContainer {
+    width: 260px;
+  }
+
+  .imgButtons1 {
+    width: 72px;
+  }
+
+  .imgButtons2 {
+    width: 116px;
+  }
+
+  .imgButtons3 {
+    width: 156px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .imgButtons4 {
+    width: 208px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .imgButtons5 {
+    width: 260px;
     grid-template-columns: repeat(5, 1fr);
   }
 }
