@@ -34,7 +34,7 @@ public class Weapon {
 	private ArrayList<Stat> negativos = new ArrayList<>();
 	private ArrayList<Stat> neutralesDespues = new ArrayList<>();
 	
-	// Límites de los stats
+	// Lï¿½mites de los stats
 	private int maxStatsPositivos = 0;
 	private int maxStatsNegativos = 3;
 	private float maxPuntuacionPositivos = 0;
@@ -1416,13 +1416,13 @@ public class Weapon {
 	**************************************************************************************************/
 	private void setTipoSyringeGun() {
 		medRegenPassive = new Stat(3,1,"+"," health regenerated per second on wearer", 25, "-", " health regenerated per second on wearer", 2);		stats.add(medRegenPassive);		medRegenPassive.setNombre("\033[33mmedRegenPassive\033[0m");
-		syringeUberOnHit = new Stat(3,1,"On Hit: Up to +","% ÜberCharge added",42,true);															stats.add(syringeUberOnHit);	syringeUberOnHit.setNombre("\033[36msyringeUberOnHit\033[0m");
-		speedBasedUber = new Stat(20, 5,"Up to +", "% faster movement speed based on ÜberCharge percentage when active", 25,
-				"Up to +", "% slower movement speed based on ÜberCharge percentage when active", 15);												stats.add(speedBasedUber);		speedBasedUber.setNombre("\033[33mspeedBasedUber\033[0m");
-		dmgBasedUber = new Stat(20, 5,"Up to +", "% damage bonus based on ÜberCharge percentage when active", 25,
-				"Up to -", "% damage penalty based on ÜberCharge percentage when active",20);														stats.add(dmgBasedUber);		dmgBasedUber.setNombre("\033[33mdmgBasedUber\033[0m");
-		fireSpdBasedUber = new Stat(20, 5,"Up to +", "% faster firing speed based on ÜberCharge percentage when active", 25,
-				"Up to -", "% slower firing speed based on ÜberCharge percentage when active",20);													stats.add(fireSpdBasedUber);	fireSpdBasedUber.setNombre("\033[33mfireSpdBasedUber\033[0m");
+		syringeUberOnHit = new Stat(3,1,"On Hit: Up to +","% ï¿½berCharge added",42,true);															stats.add(syringeUberOnHit);	syringeUberOnHit.setNombre("\033[36msyringeUberOnHit\033[0m");
+		speedBasedUber = new Stat(20, 5,"Up to +", "% faster movement speed based on ï¿½berCharge percentage when active", 25,
+				"Up to +", "% slower movement speed based on ï¿½berCharge percentage when active", 15);												stats.add(speedBasedUber);		speedBasedUber.setNombre("\033[33mspeedBasedUber\033[0m");
+		dmgBasedUber = new Stat(20, 5,"Up to +", "% damage bonus based on ï¿½berCharge percentage when active", 25,
+				"Up to -", "% damage penalty based on ï¿½berCharge percentage when active",20);														stats.add(dmgBasedUber);		dmgBasedUber.setNombre("\033[33mdmgBasedUber\033[0m");
+		fireSpdBasedUber = new Stat(20, 5,"Up to +", "% faster firing speed based on ï¿½berCharge percentage when active", 25,
+				"Up to -", "% slower firing speed based on ï¿½berCharge percentage when active",20);													stats.add(fireSpdBasedUber);	fireSpdBasedUber.setNombre("\033[33mfireSpdBasedUber\033[0m");
 	}
 	
 	private void relacionadasSyringeGun() {
@@ -1433,7 +1433,7 @@ public class Weapon {
 	
 	private void setTipoMedigun() {
 		healRate = new Stat(40, 5, "+", "% heal rate", 50, "-", "% heal rate", 10);							stats.add(healRate);			healRate.setNombre("\033[33mhealRate\033[0m");
-		uberRate = new Stat(65, 5, "+", "% Übercharge rate", 30, "-", "% Übercharge rate", 20);				stats.add(uberRate);			uberRate.setNombre("\033[33muberRate\033[0m");
+		uberRate = new Stat(65, 5, "+", "% ï¿½bercharge rate", 30, "-", "% ï¿½bercharge rate", 20);				stats.add(uberRate);			uberRate.setNombre("\033[33muberRate\033[0m");
 		overhealRate = new Stat(25, 5, "+", "% Overheal rate", 25, "-", "% Overheal rate", 65);				stats.add(overhealRate);		overhealRate.setNombre("\033[33moverhealRate\033[0m");
 		overhealMax = new Stat("+", "% max Overheal", 75, "", "% max Overheal", 100);						stats.add(overhealMax);			overhealMax.setNombre("\033[33moverhealMax\033[0m");
 		mimicsRJ = new Stat("Mirror the blast jumps and shield charges of patients.", 15, true);			stats.add(mimicsRJ);			mimicsRJ.setNombre("\033[36mmimicsRJ\033[0m");
@@ -1448,7 +1448,7 @@ public class Weapon {
 	}
 	
 	private void setTipoBonesaw() {
-		onHitUber = new Stat(45, 5, "On Hit: +" ,"% ÜberCharge added", 60, true);																	stats.add(onHitUber);			onHitUber.setNombre("\033[33monHitUber\033[0m");
+		onHitUber = new Stat(45, 5, "On Hit: +" ,"% ï¿½berCharge added", 60, true);																	stats.add(onHitUber);			onHitUber.setNombre("\033[33monHitUber\033[0m");
 		//harvestOrgan = new Stat																													stats.add(harvestOrgan);		harvestOrgan.setNombre("\033[33mharvestOrgan\033[0m");
 		areaHealTaunt = new Stat("Alt-Fire: Applies a healing effect to all nearby teammates", 15, true);											stats.add(areaHealTaunt);		areaHealTaunt.setNombre("\033[36mareaHealTaunt\033[0m");
 		medRegenActive = new Stat(4,1,"+"," health regenerated per second when active", 25, true);													stats.add(medRegenActive);		medRegenActive.setNombre("\033[36mmedRegenActive\033[0m");
@@ -1631,7 +1631,7 @@ public class Weapon {
 				Stat statAux;
 				boolean correcto = false;
 				
-				// Si la puntuación ya superó el promedio, puede seguir o no de manera aleatoria
+				// Si la puntuaciï¿½n ya superï¿½ el promedio, puede seguir o no de manera aleatoria
 				if(puntuacionBanner >= minPuntuacionBanner) {
 					if(banner.size() >= 2) {
 						r2 = rand2.nextInt(banner.size());
@@ -1645,19 +1645,19 @@ public class Weapon {
 					}
 				}
 				
-				// Analiza todos los stats y si cabe dentro de la puntuación, lo toma
+				// Analiza todos los stats y si cabe dentro de la puntuaciï¿½n, lo toma
 				do {
 					statAux = bannerBuffs.get(aux);
 					System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(true)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionBanner);
-					// Buscar el stat que tiene la puntuación menor e ir acumulando su índice
+					// Buscar el stat que tiene la puntuaciï¿½n menor e ir acumulando su ï¿½ndice
 					if(statAux.getPuntajeMenor(true) < bannerBuffs.get(indexOfMin).getPuntajeMenor(true)) {
 						indexOfMin = aux;
 					}
-					// Buscar el stat que tiene la puntuación mayor e ir acumulando su índice
+					// Buscar el stat que tiene la puntuaciï¿½n mayor e ir acumulando su ï¿½ndice
 					if(statAux.getPeso() > bannerBuffs.get(indexOfMax).getPeso()) {
 						indexOfMax = aux;
 					}
-					// Si el stat es el último y es muy chico, buscar otro. Si es muy grande buscar otro
+					// Si el stat es el ï¿½ltimo y es muy chico, buscar otro. Si es muy grande buscar otro
 					if(	(banner.size() == 4 && (statAux.getPeso() + puntuacionBanner) < minPuntuacionBanner)
 						||
 						statAux.getPuntajeMenor(true) > (maxPuntuacionBanner - puntuacionBanner))
@@ -1672,7 +1672,7 @@ public class Weapon {
 						aux = 0;
 					}
 				} while(aux != r);
-				// Si el stat de menor peso sobrepasa el máximo, ya no añade más stats
+				// Si el stat de menor peso sobrepasa el mï¿½ximo, ya no aï¿½ade mï¿½s stats
 				if(puntuacionBanner + bannerBuffs.get(indexOfMin).getPuntajeMenor(true) > maxPuntuacionBanner) {
 					break;
 				}
@@ -1694,7 +1694,7 @@ public class Weapon {
 						cont++;
 					} while(statAux.getPuntaje() > (maxPuntuacionBanner - puntuacionBanner) && cont < 100);
 				}
-				// Añadir el stat a la lista de stats
+				// Aï¿½adir el stat a la lista de stats
 				System.out.print("\n\n   "+statAux.getTexto()+"\n");
 				banner.add(statAux);
 				puntuacionBanner += statAux.getPuntaje();
@@ -1707,7 +1707,7 @@ public class Weapon {
 		for(Stat s : banner) {
 			System.out.print("\n"+s.getNombre());
 		}
-		System.out.print("\nPuntuación banner = "+puntuacionBanner);
+		System.out.print("\nPuntuaciï¿½n banner = "+puntuacionBanner);
 		
 		puntuacionPositiva += puntuacionBanner/2;
 		
@@ -1741,7 +1741,7 @@ public class Weapon {
 						}
 	 				}
 					
-					// Si la puntuación ya superó el promedio, puede seguir o no de manera aleatoria
+					// Si la puntuaciï¿½n ya superï¿½ el promedio, puede seguir o no de manera aleatoria
 					if(puntuacionPositiva >= minPuntuacionPositivos) {
 						rand2 = new Random();
 						if(positivos.size() >= 2) {
@@ -1756,19 +1756,19 @@ public class Weapon {
 						}
 					}
 					
-					// Analiza todos los stats y si cabe dentro de la puntuación, lo toma
+					// Analiza todos los stats y si cabe dentro de la puntuaciï¿½n, lo toma
 					do {
 						statAux = stats.get(aux);
 						System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(true)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionPositiva);
-						// Buscar el stat que tiene la puntuación menor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n menor e ir acumulando su ï¿½ndice
 						if(statAux.getPuntajeMenor(true) < stats.get(indexOfMin).getPuntajeMenor(true)) {
 							indexOfMin = aux;
 						}
-						// Buscar el stat que tiene la puntuación mayor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n mayor e ir acumulando su ï¿½ndice
 						if(statAux.getPeso() > stats.get(indexOfMax).getPeso()) {
 							indexOfMax = aux;
 						}
-						// Si el stat es el último y es muy chico, buscar otro. Si es muy grande buscar otro
+						// Si el stat es el ï¿½ltimo y es muy chico, buscar otro. Si es muy grande buscar otro
 						if(	(positivos.size() == 3 && (statAux.getPeso() + puntuacionPositiva) < minPuntuacionPositivos)
 							||
 							statAux.getPuntajeMenor(true) > (maxPuntuacionPositivos - puntuacionPositiva))
@@ -1783,7 +1783,7 @@ public class Weapon {
 							aux = 0;
 						}
 					} while(aux != r);
-					// Si el stat de menor peso sobrepasa el máximo, ya no añade más stats
+					// Si el stat de menor peso sobrepasa el mï¿½ximo, ya no aï¿½ade mï¿½s stats
 					if(puntuacionPositiva + stats.get(indexOfMin).getPuntajeMenor(true) > maxPuntuacionPositivos) {
 						break;
 					}
@@ -1808,7 +1808,7 @@ public class Weapon {
 							cont++;
 						} while(statAux.getPuntaje() > (maxPuntuacionPositivos - puntuacionPositiva) && cont < 100);
 					}
-					// Añadir el stat a la lista de stats
+					// Aï¿½adir el stat a la lista de stats
 					System.out.print("\n\n   "+statAux.getTexto()+"\n");
 					if(statAux == mimicsRJ) {
 						neutralesDespues.add(statAux);
@@ -1831,24 +1831,24 @@ public class Weapon {
 					int indexOfMax = aux;
 					boolean correcto = false;
 					
-					// Analiza todos los stats y si cabe dentro de la puntuación, lo toma
+					// Analiza todos los stats y si cabe dentro de la puntuaciï¿½n, lo toma
 					do {
 						statAux = stats.get(aux);
 						System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(true)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionPositiva);
-						// Buscar el stat que tiene la puntuación menor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n menor e ir acumulando su ï¿½ndice
 						if(statAux.getPuntajeMenor(true) < stats.get(indexOfMin).getPuntajeMenor(true)) {
 							indexOfMin = aux;
 						}
-						// Buscar el stat que tiene la puntuación mayor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n mayor e ir acumulando su ï¿½ndice
 						if(statAux.getPeso() > stats.get(indexOfMax).getPeso()) {
 							indexOfMax = aux;
 						}
-						// Si el stat es el último y es muy chico, buscar otro. Si es muy grande buscar otro
-						if(		// Si el stat es el último y es muy chico, buscar otro
+						// Si el stat es el ï¿½ltimo y es muy chico, buscar otro. Si es muy grande buscar otro
+						if(		// Si el stat es el ï¿½ltimo y es muy chico, buscar otro
 							(positivos.size() == maxStatsPositivos-1 && (statAux.getPeso() + puntuacionPositiva) < minPuntuacionPositivos)
-							||	// Si el stat es el último y es muy grande, buscar otro
+							||	// Si el stat es el ï¿½ltimo y es muy grande, buscar otro
 							(positivos.size() == maxStatsPositivos-1 && statAux.getPuntajeMenor(true) > (maxPuntuacionPositivos - puntuacionPositiva))
-							|| 	// Si el stat no es el último y no deja espacio para más stats, busca otro 
+							|| 	// Si el stat no es el ï¿½ltimo y no deja espacio para mï¿½s stats, busca otro 
 							(positivos.size() != maxStatsPositivos-1 && (statAux.getPuntajeMenor(true) + puntuacionPositiva > maxPuntuacionPositivos - 2.8*(maxStatsPositivos - positivos.size()) ) ) ) 
 						{
 							aux++;
@@ -1861,9 +1861,9 @@ public class Weapon {
 							aux = 0;
 						}
 					} while(aux != r);
-					// Si no se encontró un buen stat
+					// Si no se encontrï¿½ un buen stat
 					if(correcto == false) {
-						// Si el más chico es muy grande
+						// Si el mï¿½s chico es muy grande
 						if(
 							(positivos.size() == maxStatsPositivos-1 &&
 							stats.get(indexOfMin).getPuntajeMenor(true) > maxPuntuacionPositivos - puntuacionPositiva)
@@ -1879,7 +1879,7 @@ public class Weapon {
 								statAux.setPositivo();
 							} while(statAux.getPuntaje() != statAux.getPuntajeMenor(true));
 						}
-						// Si el más grande es muy chico
+						// Si el mï¿½s grande es muy chico
 						else if(positivos.size() == maxStatsPositivos-1 &&
 								(stats.get(indexOfMax).getPeso() + puntuacionPositiva) < minPuntuacionPositivos) {
 							System.out.print("\nEntra: "+statAux.getNombre());
@@ -1904,7 +1904,7 @@ public class Weapon {
 								(positivos.size() == maxStatsPositivos-1 && statAux.getPuntaje() + puntuacionPositiva < minPuntuacionPositivos)
 								&& cont < 100);
 					}
-					// Añadir el stat a la lista de stats
+					// Aï¿½adir el stat a la lista de stats
 					System.out.print("\n\n   "+statAux.getTexto()+"\n");
 					if(statAux == mimicsRJ) {
 						neutralesDespues.add(statAux);
@@ -1944,7 +1944,7 @@ public class Weapon {
 						}
 	 				}
 					
-					// Si la puntuación ya superó el promedio, puede seguir o no de manera aleatoria
+					// Si la puntuaciï¿½n ya superï¿½ el promedio, puede seguir o no de manera aleatoria
 					if(puntuacionNegativa >= minPuntuacionNegativos || (puntuacionNegativa >= puntuacionPositiva+8 && power >= 2) || !isWeapon) {
 						rand2 = new Random();
 						if(negativos.size() >= 2) {
@@ -1972,19 +1972,19 @@ public class Weapon {
 						}
 					}
 					
-					// Analiza todos los stats y si cabe dentro de la puntuación, lo toma
+					// Analiza todos los stats y si cabe dentro de la puntuaciï¿½n, lo toma
 					do {
 						statAux = stats.get(aux);
 						System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(false)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionNegativa);
-						// Buscar el stat que tiene la puntuación menor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n menor e ir acumulando su ï¿½ndice
 						if(statAux.getPuntajeMenor(false) < stats.get(indexOfMin).getPuntajeMenor(false)) {
 							indexOfMin = aux;
 						}
-						// Buscar el stat que tiene la puntuación mayor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n mayor e ir acumulando su ï¿½ndice
 						if(statAux.getPeso() > stats.get(indexOfMax).getPeso()) {
 							indexOfMax = aux;
 						}
-						// Si el stat es el último y es muy chico, buscar otro. Si es muy grande buscar otro
+						// Si el stat es el ï¿½ltimo y es muy chico, buscar otro. Si es muy grande buscar otro
 						if(	(negativos.size() == 4 && (statAux.getPeso() + puntuacionNegativa) < minPuntuacionNegativos)
 							||
 							statAux.getPuntajeMenor(false) > (maxPuntuacionNegativos - puntuacionNegativa))
@@ -1999,7 +1999,7 @@ public class Weapon {
 							aux = stats.size() - statsNegativosDisponibles;
 						}
 					} while(aux != r + stats.size() - statsNegativosDisponibles);
-					// Si el stat de menor peso sobrepasa el máximo, ya no añade más stats
+					// Si el stat de menor peso sobrepasa el mï¿½ximo, ya no aï¿½ade mï¿½s stats
 					if(puntuacionNegativa + stats.get(indexOfMin).getPuntajeMenor(false) > maxPuntuacionNegativos) {
 						break;
 					}
@@ -2040,24 +2040,24 @@ public class Weapon {
 					int indexOfMax = aux;
 					boolean correcto = false;
 					
-					// Analiza todos los stats y si cabe dentro de la puntuación, lo toma
+					// Analiza todos los stats y si cabe dentro de la puntuaciï¿½n, lo toma
 					do {
 						statAux = stats.get(aux);
 						System.out.print("\n Analizando: "+statAux.getNombre()+"\tmin = "+statAux.getPuntajeMenor(false)+"\tmax = "+ statAux.getPeso()+"\tpun = "+puntuacionNegativa);
-						// Buscar el stat que tiene la puntuación menor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n menor e ir acumulando su ï¿½ndice
 						if(statAux.getPuntajeMenor(false) < stats.get(indexOfMin).getPuntajeMenor(false)) {
 							indexOfMin = aux;
 						}
-						// Buscar el stat que tiene la puntuación mayor e ir acumulando su índice
+						// Buscar el stat que tiene la puntuaciï¿½n mayor e ir acumulando su ï¿½ndice
 						if(statAux.getPeso() > stats.get(indexOfMax).getPeso()) {
 							indexOfMax = aux;
 						}
-						// Si el stat es el último y es muy chico, buscar otro. Si es muy grande buscar otro
-						if(		// Si el stat es el último y es muy chico, buscar otro
+						// Si el stat es el ï¿½ltimo y es muy chico, buscar otro. Si es muy grande buscar otro
+						if(		// Si el stat es el ï¿½ltimo y es muy chico, buscar otro
 							(negativos.size() == maxStatsNegativos-1 && (statAux.getPeso() + puntuacionNegativa) < minPuntuacionNegativos)
-							||	// Si el stat es el último y es muy grande, buscar otro
+							||	// Si el stat es el ï¿½ltimo y es muy grande, buscar otro
 							(negativos.size() == maxStatsNegativos-1 && statAux.getPuntajeMenor(false) > (maxPuntuacionNegativos - puntuacionNegativa))
-							|| 	// Si el stat no es el último y no deja espacio para más stats, busca otro 
+							|| 	// Si el stat no es el ï¿½ltimo y no deja espacio para mï¿½s stats, busca otro 
 							(negativos.size() != maxStatsNegativos-1 && (statAux.getPuntajeMenor(false) + puntuacionNegativa > maxPuntuacionNegativos - 2.8*(maxStatsNegativos - negativos.size()) ) ) ) 
 						{
 							aux++;
@@ -2070,9 +2070,9 @@ public class Weapon {
 							aux = stats.size() - statsNegativosDisponibles;
 						}
 					} while(aux != r + stats.size() - statsNegativosDisponibles);
-					// Si no se encontró un buen stat
+					// Si no se encontrï¿½ un buen stat
 					if(correcto == false) {
-						// Si el más chico es muy grande
+						// Si el mï¿½s chico es muy grande
 						if(
 							(negativos.size() == maxStatsNegativos-1 &&
 							stats.get(indexOfMin).getPuntajeMenor(false) > maxPuntuacionNegativos - puntuacionNegativa)
@@ -2090,7 +2090,7 @@ public class Weapon {
 								//cont++;
 							} while(statAux.getPuntaje() != statAux.getPuntajeMenor(false) && cont < 100);
 						}
-						// Si el más grande es muy chico
+						// Si el mï¿½s grande es muy chico
 						else if(negativos.size() == maxStatsNegativos-1 &&
 								(stats.get(indexOfMax).getPeso() + puntuacionNegativa) < minPuntuacionNegativos) {
 							int cont = 0;
@@ -2114,7 +2114,7 @@ public class Weapon {
 								(negativos.size() == maxStatsNegativos-1 && statAux.getPuntaje() + puntuacionNegativa < minPuntuacionNegativos)
 								&& cont < 100);
 					}
-					// Añadir el stat a la lista de stats
+					// Aï¿½adir el stat a la lista de stats
 					System.out.print("\n\n   "+statAux.getTexto()+"\n");
 					negativos.add(statAux);
 					puntuacionNegativa += statAux.getPuntaje();
@@ -2161,9 +2161,9 @@ public class Weapon {
 			System.out.print("\n \033[91m" + s.getTexto() + "     " + s.getPuntaje() + "\033[0m");
 		}
 		
-		System.out.print("\n\n PUNTUACIÓN POSITIVA: "+ puntuacionPositiva);
-		System.out.print("\n PUNTUACIÓN NEGATIVA: "+ puntuacionNegativa);
-		System.out.print("\n PUNTUACIÓN BANNER: "+ puntuacionBanner);
+		System.out.print("\n\n PUNTUACIï¿½N POSITIVA: "+ puntuacionPositiva);
+		System.out.print("\n PUNTUACIï¿½N NEGATIVA: "+ puntuacionNegativa);
+		System.out.print("\n PUNTUACIï¿½N BANNER: "+ puntuacionBanner);
 	}
 	
 	

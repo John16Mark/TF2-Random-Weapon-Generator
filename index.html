@@ -50,8 +50,8 @@
               <h4 class="settingsStatTitle colorPositive">Positive</h4>
               <div class="range-slider" id="positive-slider">
                 <div class="color-track"></div>
-                <input type="range" min="0" max="5" value="1" id="positive-min">
-                <input type="range" min="0" max="5" value="3" id="positive-max">
+                <input type="range" min="0" max="5" value="0" id="positive-min">
+                <input type="range" min="0" max="5" value="5" id="positive-max">
               </div>
               <span class="range" id="positive-output">1 - 4</span>
             </div>
@@ -60,8 +60,8 @@
               <h4 class="settingsStatTitle colorNegative">Negative</h4>
               <div class="range-slider" id="negative-slider">
                 <div class="color-track"></div>
-                <input type="range" min="0" max="5" value="1" id="negative-min">
-                <input type="range" min="0" max="5" value="3" id="negative-max">
+                <input type="range" min="0" max="5" value="0" id="negative-min">
+                <input type="range" min="0" max="5" value="5" id="negative-max">
               </div>
               <span class="range" id="negative-output">1 - 4</span>
             </div>
@@ -72,8 +72,8 @@
           <div class="statDiv">
             <div class="range-slider" id="power-slider">
               <div class="color-track"></div>
-              <input type="range" min="0" max="4" value="1" id="power-min">
-              <input type="range" min="0" max="4" value="3" id="power-max">
+              <input type="range" min="0" max="4" value="0" id="power-min">
+              <input type="range" min="0" max="4" value="4" id="power-max">
             </div>
             <span class="range" id="power-output">Weak - Strong</span>
           </div>
@@ -89,7 +89,7 @@
           <img class="sello hidden" id='sello' src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png">
         </div>
         <h2 id="title">Welcome to the TF2 Weapon Generator!</h2>
-        <div class="stat">
+        <div class="stat" id='neutral1'>
           Select the class and slot for the weapon.
           <br>
 				  Select how many stats you want on the weapon, either by range of values or by a specific number.
@@ -105,10 +105,10 @@
 				  <font color="#8650AC">0 - 5</font> and set
 				  <font color="#8650AC">Trash - Broken</font> on the power level for true randomness on your weapon.
         </div>
-        <div class="stat colorPositive">
+        <div class="stat colorPositive" id='positive1'>
           
         </div>
-        <div class="stat colorNegative">
+        <div class="stat colorNegative" id='negative1'>
           
         </div>
       </div>
@@ -119,8 +119,9 @@
 
   <script src="js/background.js"></script>
   <script src="js/definitions.js"></script>
+  <script src='js/stats.js'></script>
   <script src="js/imgbuttons.js"></script>
-  <script src="js/stats.js"></script>
+  <script src="js/sliders.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
