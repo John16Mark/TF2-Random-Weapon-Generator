@@ -3,121 +3,131 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
   <link rel="stylesheet" href="styles/general.css">
-  <title>TF2 Weapon Generator</title>
+  <title>TF2 Weapon Generator (Work in progress!)</title>
 </head>
 <body>
 
   <div class="wrapper">
-    <div class="contenedor">
-      <div class="fila-extra">
-        <div class="presentacion-title">TF2 Random Weapon Generator</div>
-        <div class="presentacion-subtitle">By John16Mark</div>
-      </div>
-
-      <div class="columna columna1">
-        <div class="topContainer">
-          <h2 class="settingsTitle">Settings</h2>
-
-          <h3 class="settingsSubtitle">Class</h3>
-          <div class="imgButtonsContainer" id="imgButtonsClasses">
-            <img src="img/random.png" class="boton-opcion clase selected" data-valor="randomClass" />
-            <img src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png" class="boton-opcion clase" data-valor="Scout" />
-            <img src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png" class="boton-opcion clase" data-valor="Soldier" />
-            <img src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png" class="boton-opcion clase" data-valor="Pyro" />
-            <img src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png" class="boton-opcion clase" data-valor="Demoman" />
-            <img src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png" class="boton-opcion clase" data-valor="Heavy" />
-            <img src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png" class="boton-opcion clase" data-valor="Engineer" />
-            <img src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png" class="boton-opcion clase" data-valor="Medic" />
-            <img src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png" class="boton-opcion clase" data-valor="Sniper" />
-            <img src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png" class="boton-opcion clase" data-valor="Spy" />
-          </div>
-
-          <h3 class="settingsSubtitle">Slot</h3>
-          <div class="imgButtonsContainer imgButtons4" id="imgButtonsSlots">
-            <img src="img/random.png" class="boton-opcion slot selected" data-valor="randomSlot" />
-            <img src="img/primary.png" class="boton-opcion slot" data-valor="Primary" />
-            <img src="img/secondary.png" class="boton-opcion slot" data-valor="Secondary" />
-            <img src="img/melee.png" class="boton-opcion slot" data-valor="Melee" />
-          </div>
-
-          <h3 class="tipos settingsSubtitle hidden">Type</h3>
-          <div class="tipos imgButtonsContainer hidden" id="imgButtonsTypes"></div>
+    <div class='fondo_contenedor'>
+      <div class="contenedor">
+        <div class="fila-extra">
+          <div class="presentacion-title">TF2 Random Weapon Generator</div>
+          <div class="presentacion-subtitle">By John16Mark</div>
         </div>
 
-        <div class="bottomContainer">
+        <div class="columna columna1">
+          <div class="col1_cont botonContainer">
+            <button class="button" id="generar">Generate</button>
+          </div>
 
-          <h3 class="settingsSubtitle">Number of Stats</h3>
-          <div class="statsContenedor">
+          <div class="col1_cont topContainer">
+            <h2 class="settingsTitle">Settings</h2>
 
-            <div class="statDiv">
-              <h4 class="settingsStatTitle colorPositive">Positive</h4>
-              <div class="range-slider" id="positive-slider">
-                <div class="color-track"></div>
-                <input type="range" min="0" max="5" value="0" id="positive-min">
-                <input type="range" min="0" max="5" value="5" id="positive-max">
+            <h3 class="settingsSubtitle">Class</h3>
+            <div class="imgButtonsContainer" id="imgButtonsClasses">
+              <img src="img/random.png" class="boton-opcion clase selected" data-valor="randomClass" />
+              <img src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png" class="boton-opcion clase" data-valor="Scout" />
+              <img src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png" class="boton-opcion clase" data-valor="Soldier" />
+              <img src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png" class="boton-opcion clase" data-valor="Pyro" />
+              <img src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png" class="boton-opcion clase" data-valor="Demoman" />
+              <img src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png" class="boton-opcion clase" data-valor="Heavy" />
+              <img src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png" class="boton-opcion clase" data-valor="Engineer" />
+              <img src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png" class="boton-opcion clase" data-valor="Medic" />
+              <img src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png" class="boton-opcion clase" data-valor="Sniper" />
+              <img src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png" class="boton-opcion clase" data-valor="Spy" />
+            </div>
+
+            <h3 class="settingsSubtitle">Slot</h3>
+            <div class="imgButtonsContainer imgButtons4" id="imgButtonsSlots">
+              <img src="img/random.png" class="boton-opcion slot selected" data-valor="randomSlot" />
+              <img src="img/primary.png" class="boton-opcion slot" data-valor="Primary" />
+              <img src="img/secondary.png" class="boton-opcion slot" data-valor="Secondary" />
+              <img src="img/melee.png" class="boton-opcion slot" data-valor="Melee" />
+            </div>
+
+            <h3 class="tipos settingsSubtitle hidden">Type</h3>
+            <div class="tipos imgButtonsContainer hidden" id="imgButtonsTypes"></div>
+          </div>
+
+          <div class="col1_cont bottomContainer">
+
+            <h3 class="settingsSubtitle">Number of Stats</h3>
+            <div class="statsContenedor">
+
+              <div class="statDiv">
+                <h4 class="settingsStatTitle colorPositive">Positive</h4>
+                <div class="range-slider" id="positive-slider">
+                  <div class="color-track"></div>
+                  <input type="range" min="0" max="5" value="0" id="positive-min">
+                  <input type="range" min="0" max="5" value="5" id="positive-max">
+                </div>
+                <span class="range" id="positive-output">1 - 4</span>
               </div>
-              <span class="range" id="positive-output">1 - 4</span>
-            </div>
 
-            <div class="statDiv">
-              <h4 class="settingsStatTitle colorNegative">Negative</h4>
-              <div class="range-slider" id="negative-slider">
-                <div class="color-track"></div>
-                <input type="range" min="0" max="5" value="0" id="negative-min">
-                <input type="range" min="0" max="5" value="5" id="negative-max">
+              <div class="statDiv">
+                <h4 class="settingsStatTitle colorNegative">Negative</h4>
+                <div class="range-slider" id="negative-slider">
+                  <div class="color-track"></div>
+                  <input type="range" min="0" max="5" value="0" id="negative-min">
+                  <input type="range" min="0" max="5" value="5" id="negative-max">
+                </div>
+                <span class="range" id="negative-output">1 - 4</span>
               </div>
-              <span class="range" id="negative-output">1 - 4</span>
+
+            </div>
+
+            <h3 class="settingsSubtitle colorUnusual" id="powerTitle">Power level</h3>
+            <div class="statDiv">
+              <div class="range-slider" id="power-slider">
+                <div class="color-track"></div>
+                <input type="range" min="0" max="4" value="0" id="power-min">
+                <input type="range" min="0" max="4" value="4" id="power-max">
+              </div>
+              <span class="range" id="power-output">Weak - Strong</span>
             </div>
 
           </div>
-
-          <h3 class="settingsSubtitle colorUnusual" id="powerTitle">Power level</h3>
-          <div class="statDiv">
-            <div class="range-slider" id="power-slider">
-              <div class="color-track"></div>
-              <input type="range" min="0" max="4" value="0" id="power-min">
-              <input type="range" min="0" max="4" value="4" id="power-max">
-            </div>
-            <span class="range" id="power-output">Weak - Strong</span>
+        </div>
+        
+        <div class="columna columna2">
+          <div class="imageBackground">
+            <img class="image" id='WeaponImage' src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Team_Fortress_2_style_logo.svg/2048px-Team_Fortress_2_style_logo.svg.png">
+            <img class="sello hidden" id='sello' src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png">
           </div>
+          <h2 id="title">Welcome to the TF2 Weapon Generator! (Work in progress)</h2>
+          <div class="stat" id='neutral1'>
+            Select the class and slot for the weapon.
+            <br>
+            Select how many stats you want on the weapon, either by range of values or by a specific number.
+            <br>
+            You can also select how strong you want the weapon to be, also by range of values or by a specific power level.
+            <br>
+            When you are done, press the button to generate a weapon with random stats.
+            <br>
+            Try different options and you may find interesting results!
+            <br>
+            <br>
+            <font color="#FFD700">Pro-Tip:</font> set both number of stats to 
+            <font color="#8650AC">0 - 5</font> and set
+            <font color="#8650AC">Trash - Broken</font> on the power level for true randomness on your weapon.
+          </div>
+          <div class="stat colorPositive" id='positive1'>
+            
+          </div>
+          <div class="stat colorNegative" id='negative1'>
+            
+          </div>
+        </div>
 
-          <Button id="generar">Generate</Button>
+        <div class="fila-extra fila-fondo">
+          This is a remake of an older TF2 Weapon Generator that I originally made as a Java executable.<br>
+          My original inspiration was <a href="https://siko91.github.io/tf2-weapon-generator/">siko91's Weapon Generator</a>.<br>And now also <a href="https://tf2weapongenerator.netlify.app/">Aleksandar Dinkov's TF2 Weapon Generator</a>.<br>
+          If you want to submit your stat ideas <a>click here</a>
         </div>
-      </div>
-      
-      <!--Columna 2 inicio-->
-      <div class="columna columna2">
-        <div class="imageBackground">
-          <img class="image" id='WeaponImage' src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Team_Fortress_2_style_logo.svg/2048px-Team_Fortress_2_style_logo.svg.png">
-          <img class="sello hidden" id='sello' src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png">
-        </div>
-        <h2 id="title">Welcome to the TF2 Weapon Generator!</h2>
-        <div class="stat" id='neutral1'>
-          Select the class and slot for the weapon.
-          <br>
-				  Select how many stats you want on the weapon, either by range of values or by a specific number.
-          <br>
-          You can also select how strong you want the weapon to be, also by range of values or by a specific power level.
-          <br>
-				  When you are done, press the button to generate a weapon with random stats.
-          <br>
-				  Try different options and you may find interesting results!
-          <br>
-          <br>
-          <font color="#FFD700">Pro-Tip:</font> set both number of stats to 
-				  <font color="#8650AC">0 - 5</font> and set
-				  <font color="#8650AC">Trash - Broken</font> on the power level for true randomness on your weapon.
-        </div>
-        <div class="stat colorPositive" id='positive1'>
-          
-        </div>
-        <div class="stat colorNegative" id='negative1'>
-          
-        </div>
-      </div>
-      <!--Columna 2 fin-->
 
+      </div>
     </div>
   </div>
 

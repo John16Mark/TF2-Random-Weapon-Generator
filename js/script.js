@@ -47,7 +47,22 @@ btnGenerar.addEventListener('click', () => {
   obtener_datos_iniciales();
   set_stats_generic(stats_all, slot, primaryAmmo, secondaryAmmo);
   if(tipo.tipo == 'Weapon' || tipo.tipo == 'Medigun' || tipo.tipo == 'Sapper')
-    set_stats_weapon(stats_all, tipo.tipo, tipo.clip_size);
+    set_stats_weapon(stats_all, tipo.tipo, tipo.clip_size, slot);
+  for(var i=0; i<tipo.properties.length; i++) {
+    let propiedad = tipo.properties[i];
+    if(propiedad == 'Bullet')
+      set_stats_bullets(stats_all);
+    else if(propiedad == 'Shotgun')
+      set_stats_shotgun(stats_all);
+    else if(propiedad == 'Projectile')
+      set_stats_projectile(stats_all);
+    else if(propiedad == 'Explosive')
+      set_stats_explosive(stats_all);
+    else if(propiedad == 'Melee')
+      set_stats_melee(stats_all);
+    else
+      console.error('')
+  }
   ordenar_stats();
   anadir_stats();
   mostrar_arma();
@@ -126,7 +141,7 @@ btnGenerar.addEventListener('click', () => {
     stats_all.sort((a, b) => {
       function getPriority(stat) {
         if (stat.tipo.startsWith('UNIQUE')) {
-          return stat.positive ? 0 : 2;
+          return stat.positivo ? 0 : 2;
         } else if (stat.tipo.startsWith('BOTH')) {
           return 1;
         }
@@ -161,6 +176,10 @@ btnGenerar.addEventListener('click', () => {
     console.log('\x1b[96m Positivos ', available_stats_positive);
     console.log('\x1b[96m Negativos ', available_stats_negative);
     var r = random_int(positive ? available_stats_positive : available_stats_negative);
+    console.log('r', r);
+    if(!positive)
+      r = r+stats_all.length-available_stats_negative;
+    console.log('r', r);
     let StatAux = JSON.parse(JSON.stringify(stats_all[r]));
     console.log('STAT', StatAux);
 
@@ -175,10 +194,10 @@ btnGenerar.addEventListener('click', () => {
     for(var i=0; i<StatAux.relacionadas.length; i++) {
       for(var j=0; j<stats_all.length; j++) {
         if(StatAux.relacionadas[i] === stats_all[j].nombre) {
-          console.log('\x1b[91mEliminado: ', StatAux.relacionadas[i]);
+          console.log('\x1b[91mEliminado: ', stats_all[j].nombre);
+          count_stats(stats_all[j], false);
+          stats_blacklist.push(stats_all[j].nombre);
           stats_all.splice(j, 1);
-          stats_blacklist.push(StatAux.relacionadas[i]);
-          count_stats(StatAux, false);
           break;
         }
       }
@@ -188,14 +207,12 @@ btnGenerar.addEventListener('click', () => {
     for(var j=0; j<stats_all.length; j++) {
       if(StatAux.nombre == stats_all[j].nombre) {
         console.log('\x1b[91mEliminado: ', StatAux.nombre);
+        count_stats(StatAux, false);
         stats_blacklist.push(StatAux.nombre);
         stats_all.splice(j, 1);
-        count_stats(StatAux, false);
       }
     }
     
-    
-
     console.table(stats_all);
     console.log(stats_blacklist);
   }
@@ -206,7 +223,7 @@ btnGenerar.addEventListener('click', () => {
         available_stats_positive++;
         available_stats_negative++;
       } else {
-        if(stat.positive)
+        if(stat.positivo)
           available_stats_positive++;
         else
           available_stats_negative++;
@@ -216,9 +233,9 @@ btnGenerar.addEventListener('click', () => {
         available_stats_positive--;
         available_stats_negative--;
       } else {
-        if(stat.positive)
+        if(stat.positivo) 
           available_stats_positive--;
-        else
+        else 
           available_stats_negative--;
       }
     }
