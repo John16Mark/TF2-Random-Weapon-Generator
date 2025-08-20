@@ -10,6 +10,7 @@ let labelPositive1 = document.getElementById('positive1');
 let labelNegative1 = document.getElementById('negative1');
 
 btnGenerar.addEventListener('click', () => {
+  AudioBoton();
   let clase;
   let slot;
   let tipo;
@@ -46,8 +47,10 @@ btnGenerar.addEventListener('click', () => {
 
   obtener_datos_iniciales();
   set_stats_generic(stats_all, slot, primaryAmmo, secondaryAmmo);
-  if(tipo.tipo == 'Weapon' || tipo.tipo == 'Medigun' || tipo.tipo == 'Sapper')
-    set_stats_weapon(stats_all, tipo.tipo, tipo.clip_size, slot);
+  if(tipo.tipo == 'Weapon' || tipo.tipo == 'Medi Gun' || tipo.tipo == 'Sapper')
+    set_stats_weapon(stats_all, tipo.tipo, tipo.clip_size, slot, tipo.nombre);
+  else if(tipo.tipo == 'Passive')
+    set_stats_passive(stats_all);
   for(var i=0; i<tipo.properties.length; i++) {
     let propiedad = tipo.properties[i];
     if(propiedad == 'Bullet')
@@ -55,15 +58,26 @@ btnGenerar.addEventListener('click', () => {
     else if(propiedad == 'Shotgun')
       set_stats_shotgun(stats_all);
     else if(propiedad == 'Projectile')
-      set_stats_projectile(stats_all);
+      set_stats_projectile(stats_all, tipo.nombre);
     else if(propiedad == 'Explosive')
       set_stats_explosive(stats_all);
     else if(propiedad == 'Melee')
       set_stats_melee(stats_all);
     else
-      console.error('')
+      console.error('PROPIEDAD DESCONOCIDA')
   }
+  if(tipo.nombre == 'Medi Gun')
+    set_stats_medi_gun(stats_all);
+  else if(tipo.nombre == 'Sniper Rifle')
+    set_stats_sniper_rifle(stats_all);
+  else if(tipo.nombre == 'Revolver')
+    set_stats_revolver(stats_all);
+  else
+    console.error('')
+
   ordenar_stats();
+  console.table(stats_all);
+
   anadir_stats();
   mostrar_arma();
 
@@ -273,8 +287,11 @@ btnGenerar.addEventListener('click', () => {
 
 });
 
+
+
+
 /*******************************************************************
                           CONTROLAR SLIDERS
 *******************************************************************/
-  
+
 });

@@ -6,11 +6,3 @@ const imagenes = [
 ];
 const imagenAleatoria = imagenes[Math.floor(Math.random() * imagenes.length)];
 document.body.style.backgroundImage = `url(${imagenAleatoria})`;
-
-function setRealViewportHeight() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-setRealViewportHeight();
-window.addEventListener('resize', setRealViewportHeight);

@@ -23,7 +23,7 @@ function adjustZIndex(inputMin, minValue, inputMax, maxValue) {
   }
 }
 
-function updateSlider(isMax, slider, sliderMin, sliderMax, output) {
+function updateSlider(isMax, slider, sliderMin, sliderMax, output, pageLoaded) {
   let minValue = parseInt(sliderMin.value);
   let maxValue = parseInt(sliderMax.value);
 
@@ -36,6 +36,8 @@ function updateSlider(isMax, slider, sliderMin, sliderMax, output) {
       minValue = maxValue;
       sliderMin.value = minValue;
     }
+  } else {
+    if(pageLoaded) AudioSlider();
   }
   
   // Ajustar Z-Index de los sliders
@@ -62,25 +64,31 @@ function updateSlider(isMax, slider, sliderMin, sliderMax, output) {
 
 
 positiveMin.addEventListener('input', () => {
-  updateSlider(false, positiveSlider, positiveMin, positiveMax, positiveOutput);
+  updateSlider(false, positiveSlider, positiveMin, positiveMax, positiveOutput, true);
 });
 positiveMax.addEventListener('input', () => {
-  updateSlider(true, positiveSlider, positiveMin, positiveMax, positiveOutput);
+  updateSlider(true, positiveSlider, positiveMin, positiveMax, positiveOutput, true);
 });
 updateSlider(false, positiveSlider, positiveMin, positiveMax, positiveOutput);
 
 negativeMin.addEventListener('input', () => {
-  updateSlider(false, negativeSlider, negativeMin, negativeMax, negativeOutput);
+  updateSlider(false, negativeSlider, negativeMin, negativeMax, negativeOutput, true);
 });
 negativeMax.addEventListener('input', () => {
-  updateSlider(true, negativeSlider, negativeMin, negativeMax, negativeOutput);
+  updateSlider(true, negativeSlider, negativeMin, negativeMax, negativeOutput, true);
 });
 updateSlider(false, negativeSlider, negativeMin, negativeMax, negativeOutput);
 
 powerMin.addEventListener('input', () => {
-  updateSlider(false, powerSlider, powerMin, powerMax, powerOutput);
+  updateSlider(false, powerSlider, powerMin, powerMax, powerOutput, true);
 });
 powerMax.addEventListener('input', () => {
-  updateSlider(true, powerSlider, powerMin, powerMax, powerOutput);
+  updateSlider(true, powerSlider, powerMin, powerMax, powerOutput, true);
 });
 updateSlider(false, powerSlider, powerMin, powerMax, powerOutput);
+
+function AudioSlider() {
+  const audio = new Audio('./audio/panel_open.wav');
+  audio.volume = 0.3;
+  audio.play();
+}

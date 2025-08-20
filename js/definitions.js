@@ -81,7 +81,7 @@ class_slot_map.set('Engineer Melee', [
 class_slot_map.set('Medic Primary', [
   {nombre: 'Syringe Gun',         clip_size: 50,    tipo: 'Weapon',         properties: ['Projectile', 'RapidFire'],  image: 'https://wiki.teamfortress.com/w/images/b/bf/Backpack_Syringe_Gun.png'}]);
 class_slot_map.set('Medic Secondary', [
-  {nombre: 'Medigun',             clip_size: null,  tipo: 'Medigun',        properties: [],                           image: 'https://wiki.teamfortress.com/w/images/c/c7/Backpack_Medi_Gun.png'}]);
+  {nombre: 'Medi Gun',            clip_size: null,  tipo: 'Medi Gun',       properties: [],                           image: 'https://wiki.teamfortress.com/w/images/c/c7/Backpack_Medi_Gun.png'}]);
 class_slot_map.set('Medic Melee', [
   {nombre: 'Bonesaw',             clip_size: null,  tipo: 'Weapon',         properties: ['Melee'],                    image: 'https://wiki.teamfortress.com/w/images/9/95/Backpack_Bonesaw.png'}]);
 

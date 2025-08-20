@@ -38,6 +38,7 @@ function removeExtraSlot() {
 
 document.querySelectorAll('.clase').forEach(img => {
   img.addEventListener('click', () => {
+    AudioBoton();
     if (!img.classList.contains('selected')) {
       document.querySelector('.clase.selected')?.classList.remove('selected');
       img.classList.add('selected');
@@ -67,7 +68,10 @@ function selectSlot(img) {
 }
 
 document.querySelectorAll('.slot').forEach(img => {
-  img.addEventListener('click', () => selectSlot(img));
+  img.addEventListener('click', () => {
+    AudioBoton();
+    selectSlot(img)
+  });
 });
 
 function toggleTipos(show) {
@@ -87,6 +91,7 @@ function toggleTipos(show) {
       elementoRandom.setAttribute("data-valor", "randomType");
 
       elementoRandom.addEventListener('click', () => {
+        AudioBoton();
         if(!elementoRandom.classList.contains('selected')) {
           document.querySelector('.tipo.selected')?.classList.remove('selected');
           elementoRandom.classList.add('selected');
@@ -122,6 +127,7 @@ function toggleTipos(show) {
 
       // Si hacemos clic
       elementoImagen.addEventListener('click', () => {
+        AudioBoton();
         if(!elementoImagen.classList.contains('selected')) {
           document.querySelector('.tipo.selected')?.classList.remove('selected');
           elementoImagen.classList.add('selected');
@@ -143,4 +149,10 @@ function toggleTipos(show) {
       el.classList.add('hidden');
     }
   });
+}
+
+function AudioBoton() {
+  const audio = new Audio('./audio/tf2-button-click.mp3');
+  audio.volume = 0.5;
+  audio.play();
 }
